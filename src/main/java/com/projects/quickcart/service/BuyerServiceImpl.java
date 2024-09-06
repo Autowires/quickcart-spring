@@ -19,4 +19,16 @@ public class BuyerServiceImpl implements BuyerService {
 		return pDao.allProducts();
 	}
 
+	@Override
+	public Product getProduct() {
+		// TODO Auto-generated method stub
+		return pDao.getProductById(0);
+	}
+
+	@Override
+	public List<Product> findProductByCategory() {
+		// TODO Auto-generated method stub
+		return pDao.findProduct(null);
+	}
+
 }
