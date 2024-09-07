@@ -28,4 +28,27 @@ public class ProductDaoImple implements ProductDAO {
 		return productList;
 	}
 
+	@Override
+	public Product getProductById(int productId) {
+
+		Session session = sf.openSession();
+		Transaction transaction = session.beginTransaction();
+		Product product = session.get(Product.class, productId);
+		transaction.commit();
+		return product;
+	}
+
+	@Override
+	public List<Product> findProduct(String category) {
+
+		Session ss = sf.openSession();
+		Transaction t = ss.beginTransaction();
+
+		String hql = "from Product p where p.category= :category";
+		List<Product> products = ss.createQuery(hql, Product.class).setParameter("category", category).list();
+
+		t.commit();
+		return products;
+	}
+
 }

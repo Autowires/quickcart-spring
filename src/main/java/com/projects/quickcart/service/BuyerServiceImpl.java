@@ -15,8 +15,12 @@ public class BuyerServiceImpl implements BuyerService {
 	private ProductDAO pDao;
 
 	@Override
-	public List<Product> getProducts() {
-		return pDao.allProducts();
+	public List<Product> getProducts(String Category) {
+		if (Category == null) {
+			return pDao.allProducts();
+		} else {
+			return pDao.findProduct(Category);
+		}
 	}
 
 }

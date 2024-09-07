@@ -5,5 +5,6 @@ import java.util.List;
 import com.projects.quickcart.entity.Product;
 
 public interface BuyerService {
-	List<Product> getProducts();
+	List<Product> getProducts(String category);
+
 }
