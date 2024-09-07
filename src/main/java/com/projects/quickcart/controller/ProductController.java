@@ -3,7 +3,7 @@ package com.projects.quickcart.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.projects.quickcart.service.BuyerService;
@@ -14,27 +14,11 @@ public class ProductController {
 	private BuyerService bService;
 
 	@GetMapping("/products")
-	public ModelAndView productsView() {
+	public ModelAndView productsView(@RequestParam(required = false) String category) {
 		ModelAndView mView = new ModelAndView("products");
-		mView.addObject("producs", bService.getProducts());
+		mView.addObject("producs", bService.getProducts(category));
 		return mView;
 
 	}
 
-	@GetMapping("/{productId}")
-	public ModelAndView getProductsView(@PathVariable("productId") int productId) {
-		ModelAndView mView = new ModelAndView("products");
-		mView.addObject("products", bService.getProduct());
-
-		return mView;
-
-	}
-
-	@GetMapping("/{category}")
-	public ModelAndView findProductView(@PathVariable("category") String category) {
-		ModelAndView mView = new ModelAndView("products");
-		mView.addObject("products", bService.findProductByCategory());
-		return mView;
-
-	}
 }
