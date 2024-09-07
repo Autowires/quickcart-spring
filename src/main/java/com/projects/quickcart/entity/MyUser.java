@@ -4,6 +4,8 @@ import org.hibernate.annotations.ColumnDefault;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,7 +27,10 @@ public class MyUser {
 	private String password;
 	@Column(nullable = false)
 	private String role;
-	@ColumnDefault(value = "'ACTIVE'")
-	@Column(nullable = false)
-	private String status;
+	@Enumerated(EnumType.STRING)
+	@ColumnDefault(value = "'PENDING_VERIFICATION'")
+	@Column(nullable = false, name = "status")
+	private UserStatus status;
+	@Column(nullable = false, unique = true)
+	private String email;
 }
