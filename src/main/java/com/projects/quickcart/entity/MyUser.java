@@ -37,4 +37,6 @@ public class MyUser {
 	private UserStatus status;
 	@Column(nullable = false, unique = true)
 	private String email;
+	@Column(insertable = false, updatable = false)
+	private String role;
 }
