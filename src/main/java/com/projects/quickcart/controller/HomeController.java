@@ -11,4 +11,19 @@ public class HomeController {
 		return "index";
 	}
 
+	@GetMapping("/login")
+	public String loginView() {
+		return "login";
+	}
+
+	@GetMapping("/register")
+	public String registrationView() {
+		return "register";
+	}
+
+	@GetMapping("/retailer-register")
+	public String retailerRegistrationView() {
+		return "register-retailer";
+	}
+
 }
