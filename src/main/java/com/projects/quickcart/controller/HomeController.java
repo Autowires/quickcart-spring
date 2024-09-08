@@ -1,12 +1,15 @@
 package com.projects.quickcart.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.projects.quickcart.dto.RegistrationForm;
 import com.projects.quickcart.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
@@ -28,8 +31,8 @@ public class HomeController {
 	}
 
 	@PostMapping("/login")
-	public String loginView(@RequestParam String username,
-			@RequestParam String password, Model model, HttpSession session) {
+	public String loginView(@RequestParam String username, @RequestParam String password, Model model,
+			HttpSession session) {
 		var user = userService.getUser(username, password);
 		if (user.isEmpty()) {
 			model.addAttribute("errorMessage", "Incorrect credentials");
@@ -42,19 +45,34 @@ public class HomeController {
 		session.setAttribute("role", u.getRole());
 
 		return switch (u.getRole()) {
-			case "CUSTOMER" -> "redirect:/products";
-			case "RETAILER" -> "redirect:/retailer";
-			default -> {
-				session.invalidate();
-				System.out.println("Unknown user role " + u.getRole());
-				yield "redirect:/";
-			}
+		case "CUSTOMER" -> "redirect:/products";
+		case "RETAILER" -> "redirect:/retailer";
+		default -> {
+			session.invalidate();
+			System.out.println("Unknown user role " + u.getRole());
+			yield "redirect:/";
+		}
 		};
 	}
 
 	@GetMapping("/register")
 	public String registrationView() {
 		return "register";
+	}
+
+	@PostMapping(value = "/register", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public ModelAndView registrationView(RegistrationForm registrationForm) {
+		var mv = new ModelAndView();
+		try {
+			userService.registerCustomer(registrationForm);
+			mv.setViewName("redirect:/login");
+		} catch (Exception e) {
+			e.printStackTrace();
+			mv.addObject("errorMessage", e.getMessage());
+			mv.setViewName("register");
+		}
+
+		return mv;
 	}
 
 	@GetMapping("/retailer-register")

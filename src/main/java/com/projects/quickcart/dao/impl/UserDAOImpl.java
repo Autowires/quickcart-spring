@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.projects.quickcart.dao.UserDAO;
+import com.projects.quickcart.entity.Customer;
 import com.projects.quickcart.entity.MyUser;
 
 @Repository
@@ -26,6 +27,13 @@ public class UserDAOImpl implements UserDAO {
 			if (myUser != null)
 				return Optional.of(myUser);
 			return Optional.empty();
+		});
+	}
+
+	@Override
+	public void addCustomer(Customer customer) {
+		sessionFactory.inTransaction(session -> {
+			session.persist(customer);
 		});
 	}
 
