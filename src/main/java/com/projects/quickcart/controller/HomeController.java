@@ -80,4 +80,19 @@ public class HomeController {
 		return "register-retailer";
 	}
 
+	@PostMapping(value = "/retailer-register", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public ModelAndView retailerRegistrationView(RegistrationForm registrationForm) {
+		var mv = new ModelAndView();
+		try {
+			userService.registerRetailer(registrationForm);
+			mv.setViewName("redirect:/login");
+		} catch (Exception e) {
+			e.printStackTrace();
+			mv.addObject("errorMessage", e.getMessage());
+			mv.setViewName("register-retailer");
+		}
+
+		return mv;
+	}
+
 }

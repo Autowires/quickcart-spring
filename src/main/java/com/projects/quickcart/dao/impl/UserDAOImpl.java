@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.projects.quickcart.dao.UserDAO;
 import com.projects.quickcart.entity.Customer;
 import com.projects.quickcart.entity.MyUser;
+import com.projects.quickcart.entity.Retailer;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -34,6 +35,13 @@ public class UserDAOImpl implements UserDAO {
 	public void addCustomer(Customer customer) {
 		sessionFactory.inTransaction(session -> {
 			session.persist(customer);
+		});
+	}
+
+	@Override
+	public void addRetailer(Retailer retailer) {
+		sessionFactory.inTransaction(session -> {
+			session.persist(retailer);
 		});
 	}
 

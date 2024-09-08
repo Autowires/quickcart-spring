@@ -9,4 +9,6 @@ public interface UserService {
 	Optional<MyUser> getUser(String username, String password);
 
 	void registerCustomer(RegistrationForm registrationForm);
+
+	void registerRetailer(RegistrationForm registrationForm);
 }
