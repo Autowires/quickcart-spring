@@ -64,4 +64,37 @@ public class InventoryController {
 		return mv;
 	}
 
+	@GetMapping("/{id}/edit-product")
+	public ModelAndView updateProductView(@PathVariable long id, HttpSession session) {
+		var userId = (Long) session.getAttribute("userId");
+		if (userId == null) {
+			throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED,
+					"Sorry bro, You should be logon to your account");
+		}
+		var product = service.getProductInfo(userId, id);
+		ModelAndView mv = new ModelAndView("retailer/product-update");
+		mv.addObject("product", product);
+		return mv;
+	}
+
+	@PostMapping("/{id}/edit-product")
+	public ModelAndView updateProductView(@PathVariable long id, ProductForm form, HttpSession session) {
+		var userId = (Long) session.getAttribute("userId");
+		if (userId == null) {
+			throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED,
+					"Sorry bro, You should be logon to your account");
+		}
+		ModelAndView mv = new ModelAndView();
+		try {
+			// TODO: ask the service to update the product information
+			mv.setViewName("redirect:/retailer/inventory");
+		} catch (Exception e) {
+			e.printStackTrace();
+			mv.addObject("product", form); // let's check what you did
+			mv.setViewName("retailer/product-update");
+		}
+
+		return mv;
+	}
+
 }
