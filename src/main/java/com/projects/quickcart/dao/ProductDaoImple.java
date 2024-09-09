@@ -51,4 +51,13 @@ public class ProductDaoImple implements ProductDAO {
 		return products;
 	}
 
+	@Override
+	public List<Product> getRetailerProducts(long retailerId) {
+		return sf.fromSession(session -> {
+			var query = session.createQuery("from Product p where p.retailer.id = :id", Product.class);
+			query.setParameter("id", retailerId);
+			return query.getResultList();
+		});
+	}
+
 }

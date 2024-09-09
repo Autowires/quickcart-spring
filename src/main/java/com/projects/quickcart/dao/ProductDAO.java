@@ -10,4 +10,6 @@ public interface ProductDAO {
 	Product getProductById(int productId);
 
 	List<Product> findProduct(String category);
+
+	List<Product> getRetailerProducts(long id);
 }
