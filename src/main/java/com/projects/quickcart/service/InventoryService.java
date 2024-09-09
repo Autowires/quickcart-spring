@@ -11,4 +11,9 @@ public interface InventoryService {
 	void addProduct(ProductForm form, Long id);
 
 	Product getProductInfo(Long userId, long id);
+
+	int updateProduct(long userId, long id, ProductForm form);
+
+	void deleteProduct(long userId, long id);
+
 }

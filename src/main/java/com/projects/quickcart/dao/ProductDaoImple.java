@@ -74,6 +74,7 @@ public class ProductDaoImple implements ProductDAO {
 			var re = session.get(Retailer.class, id);
 			product.setRetailer(re);
 			session.persist(product);
+
 		});
 	}
 
@@ -87,8 +88,32 @@ public class ProductDaoImple implements ProductDAO {
 		q.setParameter("id", id);
 		i = (Product) q.getSingleResult();
 		t.commit();
-
 		return i;
 	}
 
+	public int updateProduct(Long userId, long id, ProductForm form) {
+		Product product = new Product();
+		product.setTitle(form.getTitle());
+		product.setDescription(form.getDescription());
+		product.setPrice(form.getPrice());
+		product.setCategory(form.getCategory());
+		product.setId(id);
+		return sf.fromTransaction(session -> {
+			var re = session.get(Retailer.class, id);
+			product.setRetailer(re);
+			return session.merge(product) == null ? 0 : 1;
+		});
+	}
+
+	@Override
+	public void deleteProduct(long userId, long id) {
+		Session ss = sf.openSession();
+		Transaction t = ss.beginTransaction();
+		Query q = ss.createQuery("delete from Product p where p.retailer.id=:rid and p.id=:id");
+		q.setParameter("rid", userId);
+		q.setParameter("id", id);
+		q.executeUpdate();
+		t.commit();
+
+	}
 }
