@@ -5,9 +5,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.HttpClientErrorException;
 
+import com.projects.quickcart.dto.ProductForm;
 import com.projects.quickcart.service.InventoryService;
 
 import jakarta.servlet.http.HttpSession;
@@ -28,6 +30,22 @@ public class InventoryController {
 		}
 		model.addAttribute("inventory", service.getAllProducts(id));
 		return "retailer/inventory";
+	}
+
+	@GetMapping("/add-product")
+	public String addProductView() {
+		return "retailer/product-add";
+	}
+
+	@PostMapping("/add-product")
+	public String addProductView(ProductForm form, HttpSession session) {
+		var id = (Long) session.getAttribute("userId");
+		if (id == null) {
+			throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED,
+					"Sorry bro, You should be logon to your account");
+		}
+		service.addProduct(form, id);
+		return "redirect:/retailer/inventory";
 	}
 
 }

@@ -2,6 +2,7 @@ package com.projects.quickcart.dao;
 
 import java.util.List;
 
+import com.projects.quickcart.dto.ProductForm;
 import com.projects.quickcart.entity.Product;
 
 public interface ProductDAO {
@@ -12,4 +13,6 @@ public interface ProductDAO {
 	List<Product> findProduct(String category);
 
 	List<Product> getRetailerProducts(long id);
+
+	void addProduct(ProductForm form, Long id);
 }

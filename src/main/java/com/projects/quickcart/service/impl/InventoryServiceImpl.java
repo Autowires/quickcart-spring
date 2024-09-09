@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.projects.quickcart.dao.ProductDAO;
+import com.projects.quickcart.dto.ProductForm;
 import com.projects.quickcart.entity.Product;
 import com.projects.quickcart.service.InventoryService;
 
@@ -18,6 +19,11 @@ public class InventoryServiceImpl implements InventoryService {
 	@Override
 	public List<Product> getAllProducts(long retailerId) {
 		return dao.getRetailerProducts(retailerId);
+	}
+
+	@Override
+	public void addProduct(ProductForm form, Long id) {
+		dao.addProduct(form, id);
 	}
 
 }

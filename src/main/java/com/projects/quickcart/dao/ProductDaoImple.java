@@ -9,7 +9,9 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.projects.quickcart.dto.ProductForm;
 import com.projects.quickcart.entity.Product;
+import com.projects.quickcart.entity.Retailer;
 
 @Repository
 public class ProductDaoImple implements ProductDAO {
@@ -57,6 +59,21 @@ public class ProductDaoImple implements ProductDAO {
 			var query = session.createQuery("from Product p where p.retailer.id = :id", Product.class);
 			query.setParameter("id", retailerId);
 			return query.getResultList();
+		});
+	}
+
+	@Override
+	public void addProduct(ProductForm form, Long id) {
+		Product product = new Product();
+		product.setTitle(form.getTitle());
+		product.setDescription(form.getDescription());
+		product.setPrice(form.getPrice());
+		product.setCategory(form.getCategory());
+
+		sf.inTransaction(session -> {
+			var re = session.get(Retailer.class, id);
+			product.setRetailer(re);
+			session.persist(product);
 		});
 	}
 
