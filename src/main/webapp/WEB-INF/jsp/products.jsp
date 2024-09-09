@@ -41,6 +41,7 @@
                         <p>${product.description}</p>
                         <p class="price">₹${product.price}</p>
                         <p class="category">${product.category}</p>
+                        <a href="products/${product.id}">View details</a>
                     </div>
                 </div>
             </c:forEach>

@@ -7,4 +7,6 @@ import com.projects.quickcart.entity.Product;
 public interface BuyerService {
 	List<Product> getProducts(String category);
 
+	Product getProduct(long id);
+
 }

@@ -23,4 +23,9 @@ public class BuyerServiceImpl implements BuyerService {
 		}
 	}
 
+	@Override
+	public Product getProduct(long id) {
+		return pDao.getProductById(id);
+	}
+
 }

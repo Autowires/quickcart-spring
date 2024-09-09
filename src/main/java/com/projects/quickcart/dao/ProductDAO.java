@@ -8,7 +8,7 @@ import com.projects.quickcart.entity.Product;
 public interface ProductDAO {
 	List<Product> allProducts();
 
-	Product getProductById(int productId);
+	Product getProductById(long id);
 
 	List<Product> findProduct(String category);
 
