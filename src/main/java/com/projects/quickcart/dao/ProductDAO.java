@@ -15,4 +15,6 @@ public interface ProductDAO {
 	List<Product> getRetailerProducts(long id);
 
 	void addProduct(ProductForm form, Long id);
+
+	Product addRetailerProduct(Long userId, long id);
 }

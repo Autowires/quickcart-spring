@@ -34,12 +34,12 @@
 				<c:forEach var="product" items="${inventory}">
 					<tr>
 						<td>${product.id}</td>
-						<td><a href="${product.id}">${product.title}</a></td>
+						<td><a href="inventory/${product.id}">${product.title}</a></td>
 						<td>${product.description}</td>
 						<td>${product.category}</td>
 						<td>&#8377;${product.price}</td>
 
-						<td><a href="inventory/edit/${product.id}"
+						<td><a href="inventory/${product.id}/edit-product"
 							class="btn btn-warning btn-sm">Edit</a></td>
 					</tr>
 				</c:forEach>

@@ -26,4 +26,16 @@ public class InventoryServiceImpl implements InventoryService {
 		dao.addProduct(form, id);
 	}
 
+	@Override
+	public Product getProductInfo(Long userId, long id) {
+		Product product = new Product();
+		product.setId(id);
+		product.setTitle("Captain america shield");
+		product.setDescription(
+				"I am very big fan of captain america that's why i created this fake shield, so don't buy this one");
+		product.setCategory("Fake products");
+		product.setPrice(5389174.99);
+		return product;
+	}
+
 }

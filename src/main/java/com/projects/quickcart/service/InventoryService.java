@@ -9,4 +9,6 @@ public interface InventoryService {
 	List<Product> getAllProducts(long id);
 
 	void addProduct(ProductForm form, Long id);
+
+	Product getProductInfo(Long userId, long id);
 }

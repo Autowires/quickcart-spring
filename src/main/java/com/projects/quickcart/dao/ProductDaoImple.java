@@ -77,4 +77,9 @@ public class ProductDaoImple implements ProductDAO {
 		});
 	}
 
+	@Override
+	public Product addRetailerProduct(Long userId, long id) {
+		return null;
+	}
+
 }

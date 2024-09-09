@@ -5,9 +5,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.projects.quickcart.dto.ProductForm;
 import com.projects.quickcart.service.InventoryService;
@@ -46,6 +48,20 @@ public class InventoryController {
 		}
 		service.addProduct(form, id);
 		return "redirect:/retailer/inventory";
+	}
+
+	@GetMapping("/{id}")
+	public ModelAndView productInfroView(@PathVariable long id, HttpSession session) {
+		var userId = (Long) session.getAttribute("userId");
+		if (userId == null) {
+			throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED,
+					"Sorry bro, You should be logon to your account");
+		}
+		var product = service.getProductInfo(userId, id);
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("product", product);
+		mv.setViewName("retailer/product-info");
+		return mv;
 	}
 
 }
