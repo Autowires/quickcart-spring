@@ -114,6 +114,5 @@ public class ProductDaoImple implements ProductDAO {
 		q.setParameter("id", id);
 		q.executeUpdate();
 		t.commit();
-
 	}
 }
