@@ -9,7 +9,9 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.projects.quickcart.dto.ProductForm;
 import com.projects.quickcart.entity.Product;
+import com.projects.quickcart.entity.Retailer;
 
 @Repository
 public class ProductDaoImple implements ProductDAO {
@@ -51,4 +53,66 @@ public class ProductDaoImple implements ProductDAO {
 		return products;
 	}
 
+	@Override
+	public List<Product> getRetailerProducts(long retailerId) {
+		return sf.fromSession(session -> {
+			var query = session.createQuery("from Product p where p.retailer.id = :id", Product.class);
+			query.setParameter("id", retailerId);
+			return query.getResultList();
+		});
+	}
+
+	@Override
+	public void addProduct(ProductForm form, Long id) {
+		Product product = new Product();
+		product.setTitle(form.getTitle());
+		product.setDescription(form.getDescription());
+		product.setPrice(form.getPrice());
+		product.setCategory(form.getCategory());
+
+		sf.inTransaction(session -> {
+			var re = session.get(Retailer.class, id);
+			product.setRetailer(re);
+			session.persist(product);
+
+		});
+	}
+
+	@Override
+	public Product addRetailerProduct(Long userId, long id) {
+		Product i = null;
+		Session ss = sf.openSession();
+		Transaction t = ss.beginTransaction();
+		Query q = ss.createQuery("from Product p where p.retailer.id = :rid and p.id=:id");
+		q.setParameter("rid", userId);
+		q.setParameter("id", id);
+		i = (Product) q.getSingleResult();
+		t.commit();
+		return i;
+	}
+
+	public int updateProduct(Long userId, long id, ProductForm form) {
+		Product product = new Product();
+		product.setTitle(form.getTitle());
+		product.setDescription(form.getDescription());
+		product.setPrice(form.getPrice());
+		product.setCategory(form.getCategory());
+		product.setId(id);
+		return sf.fromTransaction(session -> {
+			var re = session.get(Retailer.class, id);
+			product.setRetailer(re);
+			return session.merge(product) == null ? 0 : 1;
+		});
+	}
+
+	@Override
+	public void deleteProduct(long userId, long id) {
+		Session ss = sf.openSession();
+		Transaction t = ss.beginTransaction();
+		Query q = ss.createQuery("delete from Product p where p.retailer.id=:rid and p.id=:id");
+		q.setParameter("rid", userId);
+		q.setParameter("id", id);
+		q.executeUpdate();
+		t.commit();
+	}
 }
