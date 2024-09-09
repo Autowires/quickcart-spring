@@ -86,7 +86,7 @@ public class InventoryController {
 		}
 		ModelAndView mv = new ModelAndView();
 		try {
-			// TODO: ask the service to update the product information
+			service.updateProduct(userId, id, form);
 			mv.setViewName("redirect:/retailer/inventory");
 		} catch (Exception e) {
 			e.printStackTrace();
