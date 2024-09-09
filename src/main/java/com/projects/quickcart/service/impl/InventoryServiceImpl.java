@@ -31,4 +31,14 @@ public class InventoryServiceImpl implements InventoryService {
 		return dao.addRetailerProduct(userId, id);
 	}
 
+	public int updateProduct(long userId, long id, ProductForm form) {
+		return dao.updateProduct(null, id, form);
+	}
+
+	@Override
+	public void deleteProduct(long userId, long id) {
+		dao.deleteProduct(userId, id);
+
+	}
+
 }

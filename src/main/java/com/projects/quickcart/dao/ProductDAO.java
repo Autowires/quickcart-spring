@@ -17,4 +17,8 @@ public interface ProductDAO {
 	void addProduct(ProductForm form, Long id);
 
 	Product addRetailerProduct(Long userId, long id);
+
+	int updateProduct(Long userId, long id, ProductForm form);
+
+	void deleteProduct(long userId, long id);
 }
