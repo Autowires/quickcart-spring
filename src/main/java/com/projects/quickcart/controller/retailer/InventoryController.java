@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -32,6 +34,17 @@ public class InventoryController {
 		}
 		model.addAttribute("inventory", service.getAllProducts(id));
 		return "retailer/inventory";
+	}
+
+	@DeleteMapping
+	public String deleteProduct(@RequestParam long id, HttpSession session) {
+		var userId = (Long) session.getAttribute("userId");
+		if (userId == null) {
+			throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED,
+					"Sorry bro, You should be logon to your account");
+		}
+		service.deleteProduct(userId, id);
+		return "redirect:/retailer/inventory";
 	}
 
 	@GetMapping("/add-product")

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html>
 <head>
 <title>Inventory management</title>
@@ -40,7 +41,11 @@
 						<td>&#8377;${product.price}</td>
 
 						<td><a href="inventory/${product.id}/edit-product"
-							class="btn btn-warning btn-sm">Edit</a></td>
+							class="btn btn-warning btn-sm">Edit</a> <form:form
+								method="DELETE" style="display:inline;">
+								<input type="hidden" name="id" value="${product.id}">
+								<input type="submit" class="btn btn-danger btn-sm" value="Delete">
+							</form:form></td>
 					</tr>
 				</c:forEach>
 			</tbody>
