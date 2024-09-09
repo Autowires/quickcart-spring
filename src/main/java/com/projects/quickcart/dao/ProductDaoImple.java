@@ -79,7 +79,16 @@ public class ProductDaoImple implements ProductDAO {
 
 	@Override
 	public Product addRetailerProduct(Long userId, long id) {
-		return null;
+		Product i = null;
+		Session ss = sf.openSession();
+		Transaction t = ss.beginTransaction();
+		Query q = ss.createQuery("from Product p where p.retailer.id = :rid and p.id=:id");
+		q.setParameter("rid", userId);
+		q.setParameter("id", id);
+		i = (Product) q.getSingleResult();
+		t.commit();
+
+		return i;
 	}
 
 }
