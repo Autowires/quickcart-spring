@@ -5,11 +5,15 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.projects.quickcart.dao.WishlistDAO;
 import com.projects.quickcart.entity.Product;
 import com.projects.quickcart.service.CustomerService;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
+
+	// TODO: don't forget to add AutoWired
+	private WishlistDAO wishlistDAO; // TODO: you must have implementation of this DAO;
 
 	@Override
 	public List<Product> getItems(long userId) {
