@@ -26,7 +26,7 @@ public class ProductController {
 	public ModelAndView productInfoView(@PathVariable long id) {
 		ModelAndView mView = new ModelAndView("product-info");
 		mView.addObject("product", bService.getProduct(id));
-		mView.addObject("wishlisted", true); // TODO: based on the current user wish list.
+		mView.addObject("wishlisted", false); // TODO: based on the current user wish list.
 		return mView;
 	}
 
