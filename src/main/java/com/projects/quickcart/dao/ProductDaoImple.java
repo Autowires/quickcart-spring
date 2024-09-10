@@ -31,7 +31,7 @@ public class ProductDaoImple implements ProductDAO {
 	}
 
 	@Override
-	public Product getProductById(int productId) {
+	public Product getProductById(long productId) {
 
 		Session session = sf.openSession();
 		Transaction transaction = session.beginTransaction();
