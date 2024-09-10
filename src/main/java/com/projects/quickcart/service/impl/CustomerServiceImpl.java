@@ -7,15 +7,14 @@ import org.springframework.stereotype.Service;
 
 import com.projects.quickcart.dao.WishlistDAO;
 import com.projects.quickcart.entity.Product;
-import com.projects.quickcart.entity.WishList;
 import com.projects.quickcart.service.CustomerService;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
-	private WishlistDAO wishlistDAO; 
-	
+	private WishlistDAO wishlistDAO;
+
 	@Override
 	public List<Product> getItems(long userId) {
 		return wishlistDAO.getItems(userId);
@@ -29,12 +28,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public void removeWishlistItem(long userId, long productId) {
-		// TODO remove product from wish list
-		WishList wList = new WishList();
-		wList.setId(productId);
-		wList.setId(userId);
-		if (wList != null)
-			wishlistDAO.removeWishlistItem(wList);
+		wishlistDAO.removeWishlistItem(userId, productId);
 	}
 
 }

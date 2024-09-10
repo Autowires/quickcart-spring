@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -32,11 +33,20 @@ public class WishlistDAOImple implements WishlistDAO {
 
 	}
 
-	public void removeWishlistItem(WishList wList) {
+	public void removeWishlistItem(long userid, long pid) {
+		int result = 0;
 		Session ss = sf.openSession();
 		Transaction t = ss.beginTransaction();
-		ss.delete(wList);
+		Customer customer = ss.get(Customer.class, userid);
+		Product product = ss.get(Product.class, pid);
+		if (customer != null && product != null) {
+			Query q = ss.createQuery("delete from WishList w where w.customer=:customer and w.product=:product");
+			q.setParameter("customer", customer);
+			q.setParameter("product", product);
+			result = q.executeUpdate();
 
+			t.commit();
+		}
 	}
 
 	public List<Product> getItems(long userId) {

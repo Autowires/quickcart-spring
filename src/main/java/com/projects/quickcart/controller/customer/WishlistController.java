@@ -48,11 +48,14 @@ public class WishlistController {
 	}
 
 	@DeleteMapping
-	public ModelAndView deleteProduct(@RequestParam long productId, @RequestHeader String referer) {
+	public ModelAndView deleteProduct(@RequestParam long productId, @RequestHeader String referer,
+			HttpSession session) {
 		var mv = new ModelAndView("redirect:" + referer);
-		long userId = 1; // TODO: get userId from session
-		// TODO: handle situation where user not customer
-		service.removeWishlistItem(userId, productId);
+		var id = (Long) session.getAttribute("userId");
+		if (id == null) {
+			throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED, "Sorry , You should login");
+		}
+		service.removeWishlistItem(id, productId);
 		return mv;
 	}
 }
