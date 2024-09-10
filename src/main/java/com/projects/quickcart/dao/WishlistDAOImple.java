@@ -57,4 +57,16 @@ public class WishlistDAOImple implements WishlistDAO {
 		return q.getResultStream().map(wish -> wish.getProduct()).toList();
 	}
 
+	public boolean isProductwishlisted(Long id1, long id) {
+		// TODO Auto-generated method stub
+
+		Session ss = sf.openSession();
+		Transaction t = ss.beginTransaction();
+		Query q = ss.createQuery("from WishList w where w.customer.id=:cid and w.product.id=:pid");
+		q.setParameter("cid", id1);
+		q.setParameter("pid", id);
+		long count = q.getResultCount();
+		return count > 0;
+	}
+
 }

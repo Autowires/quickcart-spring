@@ -12,4 +12,6 @@ public interface WishlistDAO {
 
 	List<Product> getItems(long userId);
 
+	boolean isProductwishlisted(Long id1, long id);
+
 }
