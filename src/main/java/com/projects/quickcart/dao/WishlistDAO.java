@@ -1,5 +1,11 @@
 package com.projects.quickcart.dao;
 
+import com.projects.quickcart.entity.WishList;
+
 public interface WishlistDAO {
-	// TODO: write CURD methods here
+
+	void addWishlistItem(WishList wList);
+
+	void removeWishlistItem(WishList wList);
+
 }

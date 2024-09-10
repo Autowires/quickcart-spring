@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.projects.quickcart.dao.WishlistDAO;
 import com.projects.quickcart.entity.Product;
+import com.projects.quickcart.entity.WishList;
 import com.projects.quickcart.service.CustomerService;
 
 @Service
@@ -33,14 +34,21 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public void addWishlistItem(long userId, long productId) {
-		// TODO you may wished to communicate with
+		WishList wList = new WishList();
+		wList.setId(productId);
+		wList.setId(userId);
+		wishlistDAO.addWishlistItem(wList);
 
 	}
 
 	@Override
 	public void removeWishlistItem(long userId, long productId) {
 		// TODO remove product from wish list
-
+		WishList wList = new WishList();
+		wList.setId(productId);
+		wList.setId(userId);
+		if (wList != null)
+			wishlistDAO.removeWishlistItem(wList);
 	}
 
 }
