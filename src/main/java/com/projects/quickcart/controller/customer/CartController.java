@@ -46,7 +46,7 @@ public class CartController {
 	@DeleteMapping
 	public ModelAndView deleteCartItem(@SessionAttribute CurrentUser user, @RequestParam long productId) {
 		ModelAndView mView = new ModelAndView("redirect:/cart");
-		// TODO: delete the item in cart
+		customerService.deleteCartitem(user.getUserId(), productId);
 		return mView;
 	}
 }

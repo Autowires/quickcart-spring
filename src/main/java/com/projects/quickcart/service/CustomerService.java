@@ -17,4 +17,6 @@ public interface CustomerService {
 	void addProductToCart(long userId, long productId);
 
 	void updateCartQuantity(long userId, long productId, int quantity);
+
+	void deleteCartitem(long userId, long productId);
 }

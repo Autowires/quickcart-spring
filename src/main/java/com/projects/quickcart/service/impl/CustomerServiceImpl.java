@@ -67,4 +67,9 @@ public class CustomerServiceImpl implements CustomerService {
 		cartItemDAO.update(item);
 	}
 
+	@Override
+	public void deleteCartitem(long userId, long productId) {
+		cartItemDAO.removeItem(userId, productId);
+	}
+
 }

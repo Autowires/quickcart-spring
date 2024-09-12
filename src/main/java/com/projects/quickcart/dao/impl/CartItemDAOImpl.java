@@ -33,8 +33,13 @@ public class CartItemDAOImpl implements CartItemDAO {
 
 	@Override
 	public void removeItem(long cutomerId, long productId) {
-		// TODO Auto-generated method stub
-
+		sessionFactory.inTransaction(session -> {
+			var query = session
+					.createMutationQuery("delete from CartItem c where c.customer.id = :cid and c.product.id = :pid");
+			query.setParameter("cid", cutomerId);
+			query.setParameter("pid", productId);
+			query.executeUpdate();
+		});
 	}
 
 	@Override
