@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.projects.quickcart.dao.CartItemDAO;
 import com.projects.quickcart.entity.CartItem;
+import com.projects.quickcart.entity.CartItem.CartItemId;
 import com.projects.quickcart.entity.Product;
 import com.projects.quickcart.service.CustomerService;
 
@@ -53,6 +54,17 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public void addProductToCart(long userId, long productId) {
 		cartItemDAO.addItem(userId, productId);
+	}
+
+	@Override
+	public void updateCartQuantity(long userId, long productId, int quantity) {
+		CartItemId id = new CartItemId();
+		id.setCustomerId(userId);
+		id.setProductId(productId);
+		CartItem item = new CartItem();
+		item.setId(id);
+		item.setQuantity(quantity);
+		cartItemDAO.update(item);
 	}
 
 }

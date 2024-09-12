@@ -38,18 +38,19 @@ public class CartItemDAOImpl implements CartItemDAO {
 	}
 
 	@Override
-	public void updateitemQuantity(long customerId, long productId, long quanitiy) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	@Transactional
 	public List<CartItem> getCartItems(long userId) {
 		return sessionFactory.fromTransaction(session -> {
 			var query = session.createSelectionQuery("from CartItem c where c.customer.id = :id", CartItem.class);
 			query.setParameter("id", userId);
 			return query.getResultList();
+		});
+	}
+
+	@Override
+	public void update(CartItem item) {
+		sessionFactory.inTransaction(session -> {
+			session.merge(item);
 		});
 	}
 

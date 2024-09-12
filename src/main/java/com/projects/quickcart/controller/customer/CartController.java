@@ -37,9 +37,9 @@ public class CartController {
 
 	@PutMapping
 	public ModelAndView updateCartQuanitity(@SessionAttribute CurrentUser user, @RequestParam long productId,
-			@RequestParam long quantity) {
+			@RequestParam int quantity) {
 		ModelAndView mView = new ModelAndView("redirect:/cart");
-		// TODO: update the product quantity in cart
+		customerService.updateCartQuantity(user.getUserId(), productId, quantity);
 		return mView;
 	}
 

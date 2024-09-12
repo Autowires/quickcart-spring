@@ -9,7 +9,7 @@ public interface CartItemDAO {
 
 	void removeItem(long cutomerId, long productId);
 
-	void updateitemQuantity(long customerId, long productId, long quanitiy);
-
 	List<CartItem> getCartItems(long userId);
+
+	void update(CartItem item);
 }

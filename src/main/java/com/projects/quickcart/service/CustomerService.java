@@ -15,4 +15,6 @@ public interface CustomerService {
 	List<CartItem> getCartItemsByCustomer(long userId);
 
 	void addProductToCart(long userId, long productId);
+
+	void updateCartQuantity(long userId, long productId, int quantity);
 }
