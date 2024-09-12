@@ -10,6 +10,9 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         /* Header Styling */
+		* {
+			font-family: 'Roboto'
+		}
         .navbar {
             background-color: #f8f9fa;
             border-bottom: 1px solid rgb(243, 243, 243);
