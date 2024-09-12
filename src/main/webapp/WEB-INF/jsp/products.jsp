@@ -15,38 +15,130 @@
             padding: 15px;
             margin-bottom: 20px;
             text-align: center;
+            transition: transform 0.2s;
         }
+
+        .product-card:hover {
+            transform: scale(1.05);
+        }
+
+        .product-card img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 15px;
+        }
+
         .price {
             font-size: 1.25rem;
             font-weight: bold;
             color: #007bff;
         }
+
         .category {
             font-size: 0.875rem;
             color: #6c757d;
         }
-        .container {
-            max-width: 1200px;
+
+        .sidebar {
+            padding: 15px;
+            border-right: 1px solid #dee2e6;
+        }
+
+        .sidebar h5 {
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar ul {
+            padding-left: 0;
+            list-style-type: none;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .product-card {
+                margin-bottom: 15px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="text-center mb-4">PRODUCTS</h1>
+		<h1 class="text-center mb-4">OUR PRODUCTS</h1>
         <div class="row">
-            <c:forEach var="product" items="${producs}">
-                <div class="col-md-4">
-                    <div class="product-card shadow-sm">
-                        <h3 class="h5">${product.title}</h3>
-                        <p>${product.description}</p>
-                        <p class="price">₹${product.price}</p>
-                        <p class="category">${product.category}</p>
-                        <a href="products/${product.id}">View details</a>
-                    </div>
+            <!-- Sidebar -->
+            <div class="col-md-3">
+                <div class="sidebar">
+                    <input type="text" class="form-control mb-4" placeholder="Search" />
+                    
+                    <h5>Category</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Clothing</a></li>
+                        <li><a href="#">Electronics</a></li>
+                        <li><a href="#">Appliances</a></li>
+                        <li><a href="#">Grocery</a></li>
+                        <li><a href="#">Toys</a></li>
+                    </ul>
+                    
+                    <h5>Rating</h5>
+                    <ul class="list-unstyled">
+                        <li><span class="rating-stars">★★★★☆</span> & up</li>
+                        <li><span class="rating-stars">★★★☆☆</span> & up</li>
+                        <li><span class="rating-stars">★★☆☆☆</span> & up</li>
+                        <li><span class="rating-stars">★☆☆☆☆</span> & up</li>
+                    </ul>
                 </div>
-            </c:forEach>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="col-md-9">
+                <div class="row">
+                    <c:forEach var="product" items="${producs}">
+                        <div class="col-12 col-sm-6 col-md-4">
+                            <div class="product-card shadow-sm">
+                                <img src="path-to-your-product-image.jpg" alt="${product.title}" />
+                                <h3 class="h5">${product.title}</h3>
+                                <p>${product.description}</p>
+                                <p class="price">₹${product.price}</p>
+                                <p class="category">${product.category}</p>
+                                
+                                <!-- Random Rating Logic -->
+                                <%
+                                    // Generate a random rating between 1 and 5
+                                    int randomRating = (int) (Math.random() * 5) + 1;
+                                %>
+                                <p class="rating">
+                                    <%
+                                        for (int i = 0; i < randomRating; i++) {
+                                            out.print("★");  // Print star based on random rating
+                                        }
+                                        for (int i = randomRating; i < 5; i++) {
+                                            out.print("☆");  // Print empty stars for the remaining
+                                        }
+                                    %> 
+                                    <span>(${randomRating} / 5)</span>
+                                </p>
+
+                                <a href="products/${product.id}" class="btn btn-primary">View details</a>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
+                <!-- No Products View -->
+               <!-- <c:if test="${empty products}">
+                    <div class="no-products-view text-center mt-5">
+                        <img src="https://assets.ccbp.in/frontend/react-js/nxt-trendz/nxt-trendz-no-products-view.png" class="no-products-img" alt="no products" />
+                        <h1 class="no-products-heading">No Products Found</h1>
+                        <p class="no-products-description">We could not find any products. Try other filters.</p>
+                    </div>
+                </c:if>-->
+            </div>
         </div>
     </div>
+
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
