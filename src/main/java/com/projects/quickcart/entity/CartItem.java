@@ -23,7 +23,7 @@ public class CartItem {
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "customer_id", insertable = false, updatable = false)
 	private Customer customer;
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "product_id", insertable = false, updatable = false)
 	private Product product;
 	@ColumnDefault("1")

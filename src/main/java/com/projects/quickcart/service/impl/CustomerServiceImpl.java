@@ -3,13 +3,19 @@ package com.projects.quickcart.service.impl;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.projects.quickcart.dao.CartItemDAO;
+import com.projects.quickcart.entity.CartItem;
 import com.projects.quickcart.entity.Product;
 import com.projects.quickcart.service.CustomerService;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
+
+	@Autowired
+	private CartItemDAO cartItemDAO;
 
 	@Override
 	public List<Product> getItems(long userId) {
@@ -37,6 +43,11 @@ public class CustomerServiceImpl implements CustomerService {
 	public void removeWishlistItem(long userId, long productId) {
 		// TODO remove product from wish list
 
+	}
+
+	@Override
+	public List<CartItem> getCartItemsByCustomer(long userId) {
+		return cartItemDAO.getCartItems(userId);
 	}
 
 }
