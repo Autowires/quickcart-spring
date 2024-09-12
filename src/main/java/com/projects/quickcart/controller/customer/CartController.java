@@ -24,7 +24,7 @@ public class CartController {
 	@GetMapping
 	public ModelAndView getCart(@SessionAttribute CurrentUser user) {
 		ModelAndView mView = new ModelAndView("customer/cart");
-		// TODO: you have share the cart items of user from service to model
+		mView.addObject("cartItems", customerService.getCartItemsByCustomer(user.getUserId()));
 		return mView;
 	}
 
@@ -36,16 +36,15 @@ public class CartController {
 	}
 
 	@PutMapping
-	public ModelAndView updateCartQuanitity(@SessionAttribute CurrentUser user, @RequestParam long itemId,
-			@RequestParam long quanitiy) {
+	public ModelAndView updateCartQuanitity(@SessionAttribute CurrentUser user, @RequestParam long productId,
+			@RequestParam long quantity) {
 		ModelAndView mView = new ModelAndView("redirect:/cart");
 		// TODO: update the product quantity in cart
 		return mView;
 	}
 
 	@DeleteMapping
-	public ModelAndView deleteCartItem(@SessionAttribute CurrentUser user, @RequestParam long itemId,
-			@RequestParam long cartItemId) {
+	public ModelAndView deleteCartItem(@SessionAttribute CurrentUser user, @RequestParam long productId) {
 		ModelAndView mView = new ModelAndView("redirect:/cart");
 		// TODO: delete the item in cart
 		return mView;
