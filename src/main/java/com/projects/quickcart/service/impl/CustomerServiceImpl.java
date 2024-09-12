@@ -50,4 +50,9 @@ public class CustomerServiceImpl implements CustomerService {
 		return cartItemDAO.getCartItems(userId);
 	}
 
+	@Override
+	public void addProductToCart(long userId, long productId) {
+		cartItemDAO.addItem(userId, productId);
+	}
+
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.projects.quickcart.dao.CartItemDAO;
 import com.projects.quickcart.entity.CartItem;
-import com.projects.quickcart.entity.Product;
+import com.projects.quickcart.entity.CartItem.CartItemId;
 
 import jakarta.transaction.Transactional;
 
@@ -20,7 +20,14 @@ public class CartItemDAOImpl implements CartItemDAO {
 
 	@Override
 	public void addItem(long cutomerId, long productId) {
-		// TODO Auto-generated method stub
+		sessionFactory.inTransaction(session -> {
+			CartItem cartItem = new CartItem();
+			CartItemId id = new CartItemId();
+			id.setCustomerId(cutomerId);
+			id.setProductId(productId);
+			cartItem.setId(id);
+			session.persist(cartItem);
+		});
 
 	}
 
@@ -28,12 +35,6 @@ public class CartItemDAOImpl implements CartItemDAO {
 	public void removeItem(long cutomerId, long productId) {
 		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	public List<Product> getCartProducts(long customerId) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

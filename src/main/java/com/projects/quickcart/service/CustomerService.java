@@ -13,4 +13,6 @@ public interface CustomerService {
 	void removeWishlistItem(long userId, long productId);
 
 	List<CartItem> getCartItemsByCustomer(long userId);
+
+	void addProductToCart(long userId, long productId);
 }

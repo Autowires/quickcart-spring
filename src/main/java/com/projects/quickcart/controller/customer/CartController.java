@@ -31,7 +31,7 @@ public class CartController {
 	@PostMapping
 	public ModelAndView postCart(@SessionAttribute CurrentUser user, @RequestParam long productId) {
 		ModelAndView mView = new ModelAndView("redirect:/cart");
-		// TODO: add product to user cart
+		customerService.addProductToCart(user.getUserId(), productId);
 		return mView;
 	}
 
