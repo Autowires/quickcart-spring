@@ -44,6 +44,17 @@
 										</form:form>
 									</c:otherwise>
 								</c:choose>
+								<c:choose>
+									<c:when test="${inCart}">
+										<a href="/cart">View in cart</a>
+									</c:when>
+									<c:otherwise>
+										<form:form method="post" action="/cart">
+											<input type="hidden" name="productId" value="${product.id}">
+											<button type="submit" class="btn btn-success mt-3">Add to cart</button>
+										</form:form>
+									</c:otherwise>
+								</c:choose>
 							</div>
 						</div>
 					</c:when>
