@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.projects.quickcart.dto.CurrentUser;
 import com.projects.quickcart.dto.RegistrationForm;
 import com.projects.quickcart.service.UserService;
 
@@ -43,6 +44,14 @@ public class HomeController {
 		session.setAttribute("username", u.getUsername());
 		session.setAttribute("status", u.getStatus());
 		session.setAttribute("role", u.getRole());
+
+		var cu = new CurrentUser();
+		cu.setUserId(u.getId());
+		cu.setUsername(u.getUsername());
+		cu.setRole(u.getRole());
+		cu.setStatus(u.getStatus());
+
+		session.setAttribute("user", cu);
 
 		return switch (u.getRole()) {
 		case "CUSTOMER" -> "redirect:/products";
