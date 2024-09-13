@@ -21,36 +21,24 @@ public class ProductDaoImple implements ProductDAO {
 
 	@Override
 	public List<Product> allProducts() {
-
-		Session ss = sf.openSession();
-		Transaction t = ss.beginTransaction();
-		Query query = ss.createQuery("from Product");
-		List<Product> productList = query.getResultList();
-		System.out.println("Product List" + productList);
-		return productList;
+		return sf.fromSession(session -> {
+			return session.createQuery("from Product", Product.class).getResultList();
+		});
 	}
 
 	@Override
 	public Product getProductById(long productId) {
-
-		Session session = sf.openSession();
-		Transaction transaction = session.beginTransaction();
-		Product product = session.get(Product.class, productId);
-		transaction.commit();
-		return product;
+		return sf.fromSession(session -> {
+			return session.get(Product.class, productId);
+		});
 	}
 
 	@Override
 	public List<Product> findProduct(String category) {
-
-		Session ss = sf.openSession();
-		Transaction t = ss.beginTransaction();
-
-		String hql = "from Product p where p.category= :category";
-		List<Product> products = ss.createQuery(hql, Product.class).setParameter("category", category).list();
-
-		t.commit();
-		return products;
+		return sf.fromSession(session -> {
+			return session.createQuery("from Product p where p.category = :category", Product.class)
+					.setParameter("category", category).getResultList();
+		});
 	}
 
 	@Override
@@ -114,5 +102,12 @@ public class ProductDaoImple implements ProductDAO {
 		q.setParameter("id", id);
 		q.executeUpdate();
 		t.commit();
+	}
+
+	@Override
+	public List<String> getAllCategories() {
+		return sf.fromSession(session -> {
+			return session.createQuery("select category from Product", String.class).getResultList();
+		});
 	}
 }

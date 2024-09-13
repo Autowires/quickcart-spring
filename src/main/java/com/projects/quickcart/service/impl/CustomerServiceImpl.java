@@ -83,4 +83,9 @@ public class CustomerServiceImpl implements CustomerService {
 		return cartItemDAO.isProductInCart(id1, id);
 	}
 
+	@Override
+	public List<String> getCategories() {
+		return productDAO.getAllCategories();
+	}
+
 }

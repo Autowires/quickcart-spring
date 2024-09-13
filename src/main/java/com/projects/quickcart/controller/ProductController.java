@@ -20,6 +20,7 @@ public class ProductController {
 	public ModelAndView productsView(@RequestParam(required = false) String category) {
 		ModelAndView mView = new ModelAndView("products");
 		mView.addObject("producs", customerService.getProducts(category));
+		mView.addObject("categories", customerService.getCategories());
 		return mView;
 	}
 

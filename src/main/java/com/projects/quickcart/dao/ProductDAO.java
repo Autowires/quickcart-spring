@@ -21,4 +21,6 @@ public interface ProductDAO {
 	int updateProduct(Long userId, long id, ProductForm form);
 
 	void deleteProduct(long userId, long id);
+
+	List<String> getAllCategories();
 }
