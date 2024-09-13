@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.projects.quickcart.dao.CartItemDAO;
-import com.projects.quickcart.entity.CartItem;
+import com.projects.quickcart.dao.ProductDAO;
 import com.projects.quickcart.dao.WishlistDAO;
+import com.projects.quickcart.entity.CartItem;
 import com.projects.quickcart.entity.Product;
 import com.projects.quickcart.service.CustomerService;
 
@@ -17,8 +18,11 @@ public class CustomerServiceImpl implements CustomerService {
 	@Autowired
 	private CartItemDAO cartItemDAO;
 
-  @Autowired
+	@Autowired
 	private WishlistDAO wishlistDAO;
+
+	@Autowired
+	private ProductDAO productDAO;
 
 	@Override
 	public List<Product> getItems(long userId) {
@@ -53,6 +57,30 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public void deleteCartitem(long userId, long productId) {
 		cartItemDAO.removeItem(userId, productId);
+	}
+
+	@Override
+	public List<Product> getProducts(String Category) {
+		if (Category == null) {
+			return productDAO.allProducts();
+		} else {
+			return productDAO.findProduct(Category);
+		}
+	}
+
+	@Override
+	public Product getProduct(long id) {
+		return productDAO.getProductById(id);
+	}
+
+	@Override
+	public boolean isProductWishlisted(Long id1, long id) {
+		return wishlistDAO.isProductwishlisted(id1, id);
+	}
+
+	@Override
+	public boolean isProductInCart(Long id1, long id) {
+		return cartItemDAO.isProductInCart(id1, id);
 	}
 
 }

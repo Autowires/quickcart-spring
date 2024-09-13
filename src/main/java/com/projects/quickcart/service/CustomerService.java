@@ -19,4 +19,12 @@ public interface CustomerService {
 	void updateCartQuantity(long userId, long productId, int quantity);
 
 	void deleteCartitem(long userId, long productId);
+
+	List<Product> getProducts(String category);
+
+	Product getProduct(long id);
+
+	boolean isProductWishlisted(Long id1, long id);
+
+	boolean isProductInCart(Long id1, long id);
 }
