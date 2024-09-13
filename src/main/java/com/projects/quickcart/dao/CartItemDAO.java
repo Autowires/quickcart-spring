@@ -11,5 +11,5 @@ public interface CartItemDAO {
 
 	List<CartItem> getCartItems(long userId);
 
-	void update(CartItem item);
+	void updateItem(long userId, long productId, int quantity);
 }

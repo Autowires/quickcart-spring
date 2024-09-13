@@ -2,13 +2,14 @@ package com.projects.quickcart.dao.impl;
 
 import java.util.List;
 
+import com.projects.quickcart.entity.Customer;
+import com.projects.quickcart.entity.Product;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.projects.quickcart.dao.CartItemDAO;
 import com.projects.quickcart.entity.CartItem;
-import com.projects.quickcart.entity.CartItem.CartItemId;
 
 import jakarta.transaction.Transactional;
 
@@ -22,10 +23,8 @@ public class CartItemDAOImpl implements CartItemDAO {
 	public void addItem(long cutomerId, long productId) {
 		sessionFactory.inTransaction(session -> {
 			CartItem cartItem = new CartItem();
-			CartItemId id = new CartItemId();
-			id.setCustomerId(cutomerId);
-			id.setProductId(productId);
-			cartItem.setId(id);
+			cartItem.setCustomer(session.get(Customer.class,cutomerId));
+			cartItem.setProduct(session.get(Product.class, productId));
 			session.persist(cartItem);
 		});
 
@@ -51,11 +50,14 @@ public class CartItemDAOImpl implements CartItemDAO {
 			return query.getResultList();
 		});
 	}
-
 	@Override
-	public void update(CartItem item) {
+	public void updateItem(long userId, long productId, int quantity) {
 		sessionFactory.inTransaction(session -> {
-			session.merge(item);
+			session.createMutationQuery("update CartItem c set c.quantity = :qty where c.product.id = :pid and c.customer.id = :cid")
+					.setParameter("qty", quantity)
+					.setParameter("pid", productId)
+					.setParameter("cid", userId)
+					.executeUpdate();
 		});
 	}
 
