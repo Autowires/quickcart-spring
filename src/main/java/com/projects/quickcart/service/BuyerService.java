@@ -11,4 +11,6 @@ public interface BuyerService {
 
 	boolean isProductWishlisted(Long id1, long id);
 
+	boolean isProductInCart(Long id1, long id);
+
 }

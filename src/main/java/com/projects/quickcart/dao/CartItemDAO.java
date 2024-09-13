@@ -12,4 +12,6 @@ public interface CartItemDAO {
 	List<CartItem> getCartItems(long userId);
 
 	void updateItem(long userId, long productId, int quantity);
+
+	boolean isProductInCart(Long userId, long productId);
 }

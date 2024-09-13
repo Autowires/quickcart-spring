@@ -1,12 +1,10 @@
 package com.projects.quickcart.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.projects.quickcart.service.BuyerService;
@@ -29,12 +27,12 @@ public class ProductController {
 	public ModelAndView productInfoView(@PathVariable long id, HttpSession session) {
 		ModelAndView mView = new ModelAndView("product-info");
 		var id1 = (Long) session.getAttribute("userId");
-		if (id1 == null) {
-			throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED, "Sorry , You should login");
+		if (id1 != null) {
+			boolean isWishlisted = bService.isProductWishlisted(id1, id);
+			mView.addObject("wishlisted", isWishlisted);
+			mView.addObject("inCart", bService.isProductInCart(id1, id));
 		}
 		mView.addObject("product", bService.getProduct(id));
-		boolean isWishlisted = bService.isProductWishlisted(id1, id);
-		mView.addObject("wishlisted", isWishlisted);
 		return mView;
 	}
 }

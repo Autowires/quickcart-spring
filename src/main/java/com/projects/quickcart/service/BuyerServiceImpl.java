@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.projects.quickcart.dao.CartItemDAO;
 import com.projects.quickcart.dao.ProductDAO;
 import com.projects.quickcart.dao.WishlistDAO;
 import com.projects.quickcart.entity.Product;
@@ -17,6 +18,9 @@ public class BuyerServiceImpl implements BuyerService {
 
 	@Autowired
 	private WishlistDAO wishlistDAO;
+
+	@Autowired
+	private CartItemDAO cartItemDAO;
 
 	@Override
 	public List<Product> getProducts(String Category) {
@@ -35,6 +39,11 @@ public class BuyerServiceImpl implements BuyerService {
 	@Override
 	public boolean isProductWishlisted(Long id1, long id) {
 		return wishlistDAO.isProductwishlisted(id1, id);
+	}
+
+	@Override
+	public boolean isProductInCart(Long id1, long id) {
+		return cartItemDAO.isProductInCart(id1, id);
 	}
 
 }
