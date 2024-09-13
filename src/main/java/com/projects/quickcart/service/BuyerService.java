@@ -9,4 +9,6 @@ public interface BuyerService {
 
 	Product getProduct(long id);
 
+	boolean isProductWishlisted(Long id1, long id);
+
 }
