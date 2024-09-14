@@ -8,164 +8,140 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Products</title>
 <!-- Bootstrap CSS -->
-<link
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-	rel="stylesheet">
-<style>
-.product-card {
-	border: 1px solid #dee2e6;
-	border-radius: .375rem;
-	padding: 15px;
-	margin-bottom: 20px;
-	text-align: center;
-	transition: transform 0.2s;
-}
-
-.product-card:hover {
-	transform: scale(1.05);
-}
-
-.product-card img {
-	max-width: 100%;
-	height: auto;
-	margin-bottom: 15px;
-}
-
-.price {
-	font-size: 1.25rem;
-	font-weight: bold;
-	color: #007bff;
-}
-
-.category {
-	font-size: 0.875rem;
-	color: #6c757d;
-}
-
-.sidebar {
-	padding: 15px;
-	border-right: 1px solid #dee2e6;
-}
-
-.sidebar h5 {
-	margin-top: 1rem;
-	margin-bottom: 0.5rem;
-}
-
-.sidebar ul {
-	padding-left: 0;
-	list-style-type: none;
-}
-
-.sidebar ul li {
-	margin-bottom: 0.5rem;
-}
-
-@media ( max-width : 768px) {
-	.product-card {
-		margin-bottom: 15px;
-	}
-}
-</style>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"></link>
+<!-- External CSS -->
+<link rel="stylesheet" type="text/css" href="/styles/products.css">
 </head>
 <body>
-	<div class="container mt-5">
-		<h1 class="text-center mb-4">OUR PRODUCTS</h1>
-		<div class="row">
-			<!-- Sidebar -->
-			<div class="col-md-3">
-				<div class="sidebar">
-					<form>
-						<div class="input-group mb-4">
-							<input type="text" class="form-control"
-								placeholder="Search products" name="search"
-								value="${param.search}">
-							<c:if test="${not empty param.category}">
-								<input type="hidden" name="category" value="${param.category}">
-							</c:if>
-							<!-- Search Button -->
-							<button class="btn btn-primary" type="submit">Search</button>
-						</div>
-					</form>
 
-					<h5>Category</h5>
-					<ul class="list-group">
+    <!-- Header/Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="/">QuickCart</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarNav" aria-controls="navbarNav"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/products">Browse</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/cart">Cart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/wishlist">Wishlist</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/orders">Orders</a>
+                </li>
+            </ul>
 
-						<li
-							class="list-group-item">
-							<a href="/products" class="text-decoration-none">All products</a>
-						</li>
-
-						<c:forEach var="category" items="${categories}">
-							<c:choose>
-								<c:when
-									test="${not empty param.category && param.category eq category}">
-									<li class="list-group-item active">${category}</li>
-								</c:when>
-								<c:otherwise>
-									<li class="list-group-item"><a
-										href="/products?category=${category}"
-										class="text-decoration-none d-flex justify-content-between align-items-center">
-											${category} </a></li>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
-					</ul>
-				</div>
-			</div>
-
-			<!-- Main Content -->
-			<div class="col-md-9">
-				<div class="row">
-					<c:forEach var="product" items="${producs}">
-						<div class="col-12 col-sm-6 col-md-4">
-							<div class="product-card shadow-sm">
-								<img src="path-to-your-product-image.jpg" alt="${product.title}" />
-								<h3 class="h5">${product.title}</h3>
-								<p>${product.description}</p>
-								<p class="price">₹${product.price}</p>
-								<p class="category">${product.category}</p>
-
-								<!-- Random Rating Logic -->
-								<%
-								// Generate a random rating between 1 and 5
-								int randomRating = (int) (Math.random() * 5) + 1;
-								%>
-								<p class="rating">
-									<%
-									for (int i = 0; i < randomRating; i++) {
-										out.print("★"); // Print star based on random rating
-									}
-									for (int i = randomRating; i < 5; i++) {
-										out.print("☆"); // Print empty stars for the remaining
-									}
-									%>
-									<span>(${randomRating} / 5)</span>
-								</p>
-
-								<a href="products/${product.id}" class="btn btn-primary">View
-									details</a>
-							</div>
-						</div>
-					</c:forEach>
-				</div>
-				<!-- No Products View -->
-				<!-- <c:if test="${empty products}">
-                    <div class="no-products-view text-center mt-5">
-                        <img src="https://assets.ccbp.in/frontend/react-js/nxt-trendz/nxt-trendz-no-products-view.png" class="no-products-img" alt="no products" />
-                        <h1 class="no-products-heading">No Products Found</h1>
-                        <p class="no-products-description">We could not find any products. Try other filters.</p>
+            <!-- Profile Dropdown -->
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+                        role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false"> <i class="fas fa-user-circle"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right"
+                        aria-labelledby="navbarDropdown">
+                        <c:choose>
+                            <c:when test="${not empty sessionScope.username}">
+                                <span class="dropdown-item-text">Welcome, ${sessionScope.username}</span>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/logout">Logout</a>
+                            </c:when>
+                            <c:otherwise>
+                                <a class="dropdown-item" href="/login">Login</a>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
-                </c:if>-->
-			</div>
-		</div>
-	</div>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
-	<!-- Bootstrap JS and dependencies -->
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Sidebar (Search and Categories) -->
+            <div class="col-md-3">
+                <div class="sidebar p-3">
+                    <form>
+                        <div class="input-group mb-4">
+                            <input type="text" class="form-control" placeholder="Search products" name="search" value="${param.search}">
+                            <c:if test="${not empty param.category}">
+                                <input type="hidden" name="category" value="${param.category}">
+                            </c:if>
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit">Search</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <h5>Category</h5>
+                    
+                    <!-- Dropdown for mobile -->
+                    <div class="d-md-none mb-4">
+                        <form method="get" action="/products">
+                            <select class="form-control" name="category" onchange="this.form.submit()">
+                                <option value="">Select Category</option>
+                                <c:forEach var="category" items="${categories}">
+                                    <option value="${category}" ${param.category == category ? 'selected' : ''}>${category}</option>
+                                </c:forEach>
+                            </select>
+                        </form>
+                    </div>
+                    
+                    <!-- List for desktop -->
+                    <div class="d-none d-md-block">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <a href="/products" class="text-decoration-none">All products</a>
+                            </li>
+                            <c:forEach var="category" items="${categories}">
+                                <c:choose>
+                                    <c:when test="${not empty param.category && param.category eq category}">
+                                        <li class="list-group-item active">${category}</li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li class="list-group-item">
+                                            <a href="/products?category=${category}" class="text-decoration-none d-flex justify-content-between align-items-center">
+                                                ${category}
+                                            </a>
+                                        </li>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Product List -->
+            <div class="col-md-9">
+                <div class="row">
+                    <c:forEach var="product" items="${producs}">
+                        <div class="col-12 col-sm-6 col-md-4 mb-4">
+                            <div class="product-card shadow-sm p-3">
+                                <img src="https://via.placeholder.com/400" alt="${product.title}" class="img-fluid mb-3" />
+                                <h5 class="product-title">${product.title}</h5>
+                                <p class="product-description">${product.description}</p>
+                                <p class="price">₹${product.price}</p>
+                                <p class="category">${product.category}</p>
+                                <a href="products/${product.id}" class="btn btn-primary mt-2">View details</a>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </body>
 </html>
