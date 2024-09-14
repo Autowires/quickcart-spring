@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.projects.quickcart.dto.CheckoutForm;
 import com.projects.quickcart.entity.CartItem;
+import com.projects.quickcart.entity.Order;
 import com.projects.quickcart.entity.Product;
 
 public interface CustomerService {
@@ -30,4 +31,6 @@ public interface CustomerService {
 	boolean isProductInCart(Long id1, long id);
 
 	void placeOrder(long customerId, CheckoutForm form);
+
+	List<Order> getOrders(long customerId);
 }

@@ -50,4 +50,10 @@ public class OrderDAOImpl implements OrderDAO {
 
 	}
 
+	@Override
+	public List<Order> getCustomerOrders(long customerId) {
+		return entityManager.createQuery("from Order c where c.customer.id = :cid", Order.class)
+				.setParameter("cid", customerId).getResultList();
+	}
+
 }

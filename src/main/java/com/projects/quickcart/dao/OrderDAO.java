@@ -18,4 +18,6 @@ public interface OrderDAO {
 	void save(Order order);
 
 	void save(OrderDetail detail);
+
+	List<Order> getCustomerOrders(long customerId);
 }

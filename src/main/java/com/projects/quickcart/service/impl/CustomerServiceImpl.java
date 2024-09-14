@@ -131,4 +131,9 @@ public class CustomerServiceImpl implements CustomerService {
 		orderDAO.save(order);
 	}
 
+	@Override
+	public List<Order> getOrders(long customerId) {
+		return orderDAO.getCustomerOrders(customerId);
+	}
+
 }
