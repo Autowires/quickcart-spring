@@ -60,12 +60,8 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public List<Product> getProducts(String Category) {
-		if (Category == null) {
-			return productDAO.allProducts();
-		} else {
-			return productDAO.findProduct(Category);
-		}
+	public List<Product> getProducts(String category, String search) {
+		return productDAO.findProducts(category, search);
 	}
 
 	@Override

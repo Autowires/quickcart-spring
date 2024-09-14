@@ -20,7 +20,7 @@ public interface CustomerService {
 
 	void deleteCartitem(long userId, long productId);
 
-	List<Product> getProducts(String category);
+	List<Product> getProducts(String category, String search);
 
 	Product getProduct(long id);
 

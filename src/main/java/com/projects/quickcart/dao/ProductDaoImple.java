@@ -1,5 +1,6 @@
 package com.projects.quickcart.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -13,6 +14,8 @@ import com.projects.quickcart.dto.ProductForm;
 import com.projects.quickcart.entity.Product;
 import com.projects.quickcart.entity.Retailer;
 
+import jakarta.persistence.criteria.Predicate;
+
 @Repository
 public class ProductDaoImple implements ProductDAO {
 
@@ -20,9 +23,29 @@ public class ProductDaoImple implements ProductDAO {
 	private SessionFactory sf;
 
 	@Override
-	public List<Product> allProducts() {
+	public List<Product> findProducts(String category, String search) {
 		return sf.fromSession(session -> {
-			return session.createQuery("from Product", Product.class).getResultList();
+			var builder = session.getCriteriaBuilder();
+			var query = builder.createQuery(Product.class);
+			var root = query.from(Product.class);
+
+			// Build predicates based on the provided criteria
+			var predicates = new ArrayList<Predicate>();
+
+			if (search != null && !search.isBlank()) {
+				var searchPattern = "%" + search + "%";
+				var searchPredicate = builder.like(root.get("title"), searchPattern);
+				predicates.add(searchPredicate);
+			}
+
+			if (category != null && !category.isBlank()) {
+				var categoryPredicate = builder.equal(root.get("category"), category);
+				predicates.add(categoryPredicate);
+			}
+
+			query.where(predicates.toArray(new Predicate[0]));
+
+			return session.createQuery(query).getResultList();
 		});
 	}
 
@@ -30,14 +53,6 @@ public class ProductDaoImple implements ProductDAO {
 	public Product getProductById(long productId) {
 		return sf.fromSession(session -> {
 			return session.get(Product.class, productId);
-		});
-	}
-
-	@Override
-	public List<Product> findProduct(String category) {
-		return sf.fromSession(session -> {
-			return session.createQuery("from Product p where p.category = :category", Product.class)
-					.setParameter("category", category).getResultList();
 		});
 	}
 

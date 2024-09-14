@@ -75,34 +75,42 @@
 			<!-- Sidebar -->
 			<div class="col-md-3">
 				<div class="sidebar">
-					<input type="text" class="form-control mb-4"
-						placeholder="Search products" />
+					<form>
+						<div class="input-group mb-4">
+							<input type="text" class="form-control"
+								placeholder="Search products" name="search"
+								value="${param.search}">
+							<c:if test="${not empty param.category}">
+								<input type="hidden" name="category" value="${param.category}">
+							</c:if>
+							<!-- Search Button -->
+							<button class="btn btn-primary" type="submit">Search</button>
+						</div>
+					</form>
 
 					<h5>Category</h5>
 					<ul class="list-group">
-						<li><a href="/products">All products</a></li>
+
+						<li
+							class="list-group-item">
+							<a href="/products" class="text-decoration-none">All products</a>
+						</li>
 
 						<c:forEach var="category" items="${categories}">
 							<c:choose>
 								<c:when
 									test="${not empty param.category && param.category eq category}">
 									<li class="list-group-item active">${category}</li>
-							</c:when>
-							<c:otherwise>
-							<li
-								class="list-group-item">
-								<a href="products?category=${category}"
-								class="text-decoration-none d-flex justify-content-between align-items-center">
-									${category} <!-- Optional Badge to show selected status --> <span
-									class="badge bg-primary rounded-pill d-none">Selected</span>
-							</a>
-							</c:otherwise>
+								</c:when>
+								<c:otherwise>
+									<li class="list-group-item"><a
+										href="/products?category=${category}"
+										class="text-decoration-none d-flex justify-content-between align-items-center">
+											${category} </a></li>
+								</c:otherwise>
 							</c:choose>
-
-							</li>
 						</c:forEach>
 					</ul>
-
 				</div>
 			</div>
 
