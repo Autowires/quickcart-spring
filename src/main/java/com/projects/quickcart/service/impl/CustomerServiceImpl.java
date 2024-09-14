@@ -126,6 +126,7 @@ public class CustomerServiceImpl implements CustomerService {
 			detail.setQuantity(item.getQuantity());
 
 			orderDAO.save(detail);
+			cartItemDAO.removeItem(customerId, item.getId());
 
 		});
 		orderDAO.save(order);
