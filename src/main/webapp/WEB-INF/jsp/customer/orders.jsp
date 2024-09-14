@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -88,7 +89,16 @@
                                                     <td>${orderDetail.quantity}</td>
                                                     <td>${orderDetail.orderStatus}</td>
                                                     <td>
-                                                        
+                                                        <c:if test="${orderDetail.orderStatus == 'PENDING'}">
+                                                            <!-- Cancel button for pending orders -->
+                                                            <form:form method="put" class="d-inline">
+                                                                <input type="hidden" name="orderDetailId" value="${orderDetail.id}"/>
+                                                                <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+                                                            </form:form>
+                                                        </c:if>
+                                                        <c:if test="${orderDetail.orderStatus != 'PENDING'}">
+                                                            <span class="text-muted">N/A</span>
+                                                        </c:if>
                                                     </td>
                                                 </tr>
                                             </c:forEach>

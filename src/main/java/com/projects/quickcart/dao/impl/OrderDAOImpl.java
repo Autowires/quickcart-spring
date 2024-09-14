@@ -8,9 +8,11 @@ import com.projects.quickcart.dao.OrderDAO;
 import com.projects.quickcart.entity.CartItem;
 import com.projects.quickcart.entity.Order;
 import com.projects.quickcart.entity.OrderDetail;
+import com.projects.quickcart.entity.OrderStatus;
 import com.projects.quickcart.entity.PaymentDetail;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
@@ -54,6 +56,32 @@ public class OrderDAOImpl implements OrderDAO {
 	public List<Order> getCustomerOrders(long customerId) {
 		return entityManager.createQuery("from Order c where c.customer.id = :cid", Order.class)
 				.setParameter("cid", customerId).getResultList();
+	}
+
+	@Override
+	@Transactional
+	public void cancelCustomerOrder(long customerId, long orderDetailId) {
+		// Fetch the OrderDetail along with the associated Order and Customer
+		OrderDetail orderDetail = entityManager.createQuery(
+				"SELECT od FROM OrderDetail od JOIN od.order o WHERE od.id = :orderDetailId AND o.customer.id = :customerId",
+				OrderDetail.class).setParameter("orderDetailId", orderDetailId).setParameter("customerId", customerId)
+				.getSingleResult();
+
+		// Ensure the orderDetail exists and belongs to the given customer
+		if (orderDetail == null) {
+			throw new EntityNotFoundException("Order detail not found for this customer.");
+		}
+
+		// Check if the order is in 'PENDING' state
+		if (orderDetail.getOrderStatus() != OrderStatus.PENDING) {
+			throw new IllegalStateException("Cannot cancel an order that is not in PENDING status.");
+		}
+
+		// Set the order status to 'CANCELED'
+		orderDetail.setOrderStatus(OrderStatus.CANCELED);
+
+		// Persist the updated order detail status
+		entityManager.merge(orderDetail);
 	}
 
 }

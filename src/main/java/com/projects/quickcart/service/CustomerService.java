@@ -33,4 +33,6 @@ public interface CustomerService {
 	void placeOrder(long customerId, CheckoutForm form);
 
 	List<Order> getOrders(long customerId);
+
+	void cancelOrder(long customerId, long orderDetailId);
 }

@@ -136,4 +136,9 @@ public class CustomerServiceImpl implements CustomerService {
 		return orderDAO.getCustomerOrders(customerId);
 	}
 
+	@Override
+	public void cancelOrder(long customerId, long orderDetailId) {
+		orderDAO.cancelCustomerOrder(customerId, orderDetailId);
+	}
+
 }

@@ -20,4 +20,6 @@ public interface OrderDAO {
 	void save(OrderDetail detail);
 
 	List<Order> getCustomerOrders(long customerId);
+
+	void cancelCustomerOrder(long customerId, long orderDetailId);
 }
