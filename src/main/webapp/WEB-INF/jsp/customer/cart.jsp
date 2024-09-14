@@ -65,7 +65,7 @@
                     </div>
                     <div class="col-md-6 text-end">
                         <!-- Button to proceed to checkout -->
-                        <a href="${pageContext.request.contextPath}/checkout" class="btn btn-success">Proceed to Checkout</a>
+                        <a href="/cart/checkout" class="btn btn-success">Proceed to Checkout</a>
                     </div>
                 </div>
             </c:when>
