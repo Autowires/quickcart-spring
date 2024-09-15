@@ -4,9 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +27,7 @@ public class ProductReviewController {
 	@GetMapping
 	public ModelAndView listReviewsByproduct(@SessionAttribute CurrentUser user) {
 		List<ProductReview> reviews = productReviewService.getReviewsByCustomerId(user.getUserId());
-		ModelAndView mView = new ModelAndView("reviews");
+		ModelAndView mView = new ModelAndView("customer/reviews");
 		mView.addObject("reviews", reviews);
 		return mView;
 	}
@@ -41,33 +40,10 @@ public class ProductReviewController {
 		return mView;
 	}
 
-	@PostMapping("/save")
-	public ModelAndView saveReview(@ModelAttribute("productReview") ProductReview productReview,
-			@RequestParam("productId") long productId) {
-		productReviewService.saveProductReview(productReview);
-		return new ModelAndView("redirect:/reviews/product/" + productId);
-	}
-
-	@GetMapping("/edit/{id}")
-	public ModelAndView showEditReviewForm(@PathVariable("id") long id) {
-		ProductReview productReview = productReviewService.getProductReviewById(id);
-		ModelAndView modelAndView = new ModelAndView("reviews");
-		modelAndView.addObject("productReview", productReview);
-		modelAndView.addObject("mode", "edit"); // Indicates we are in edit mode
-		return modelAndView;
-	}
-
-	@PostMapping("/update")
-	public ModelAndView updateReview(@ModelAttribute("productReview") ProductReview productReview,
-			@RequestParam("productId") long productId) {
-		productReviewService.updateProductReview(productReview);
-		return new ModelAndView("redirect:/reviews/product/" + productId);
-	}
-
-	@GetMapping("/delete/{id}")
-	public ModelAndView deleteReview(@PathVariable("id") long id, @RequestParam("productId") long productId) {
-		productReviewService.deleteProductReview(id);
-		return new ModelAndView("redirect:/reviews/product/" + productId);
+	@DeleteMapping
+	public ModelAndView updateReview(@SessionAttribute CurrentUser user, @RequestParam long reviewId) {
+		productReviewService.deleteReview(reviewId);
+		return new ModelAndView("redirect:/reviews");
 	}
 
 }
