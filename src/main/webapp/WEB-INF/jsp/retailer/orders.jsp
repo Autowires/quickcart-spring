@@ -120,27 +120,27 @@
 													<td>
 														<!-- Actions based on the current status --> <c:choose>
 															<c:when test="${orderDetail.orderStatus == 'PENDING'}">
-																<form action="shipOrderDetail" method="post"
-																	class="d-inline">
+																<form:form method="put" class="d-inline">
 																	<input type="hidden" name="orderDetailId"
 																		value="${orderDetail.id}" />
+																	<input type="hidden" name="status" value="SHIPPED" />
 																	<button type="submit" class="btn btn-success btn-sm">Ship</button>
-																</form>
-																<form action="cancelOrderDetail" method="post"
-																	class="d-inline">
+																</form:form>
+																<form:form method="put" class="d-inline">
 																	<input type="hidden" name="orderDetailId"
 																		value="${orderDetail.id}" />
+																	<input type="hidden" name="status" value="CANCELED" />
 																	<button type="submit" class="btn btn-danger btn-sm">Cancel</button>
-																</form>
+																</form:form>
 															</c:when>
 															<c:when test="${orderDetail.orderStatus == 'SHIPPED'}">
-																<form action="deliverOrderDetail" method="post"
-																	class="d-inline">
+																<form:form method="put" class="d-inline">
 																	<input type="hidden" name="orderDetailId"
 																		value="${orderDetail.id}" />
+																	<input type="hidden" name="status" value="DELIVERED" />
 																	<button type="submit" class="btn btn-info btn-sm">Mark
 																		as Delivered</button>
-																</form>
+																</form:form>
 															</c:when>
 															<c:when test="${orderDetail.orderStatus == 'DELIVERED'}">
 																<span class="text-success">Delivered</span>

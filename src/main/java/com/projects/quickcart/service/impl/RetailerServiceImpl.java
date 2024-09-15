@@ -21,4 +21,9 @@ public class RetailerServiceImpl implements RetailerService {
 		return orderDetailDAO.getRetailerOrderDetails(userId, status);
 	}
 
+	@Override
+	public void changeOrderStatus(long userId, long orderDetailId, OrderStatus status) {
+		orderDetailDAO.changeOrderStatus(userId, orderDetailId, status);
+	}
+
 }

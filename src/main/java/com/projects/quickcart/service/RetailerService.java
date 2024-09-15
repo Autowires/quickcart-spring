@@ -9,4 +9,6 @@ public interface RetailerService {
 
 	List<OrderDetail> getOrders(long userId, OrderStatus status);
 
+	void changeOrderStatus(long userId, long orderDetailId, OrderStatus status);
+
 }

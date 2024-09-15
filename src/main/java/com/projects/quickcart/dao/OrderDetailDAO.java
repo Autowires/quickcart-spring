@@ -9,4 +9,6 @@ public interface OrderDetailDAO {
 
 	List<OrderDetail> getRetailerOrderDetails(long userId, OrderStatus status);
 
+	void changeOrderStatus(long retailerId, long orderDetailId, OrderStatus status);
+
 }
