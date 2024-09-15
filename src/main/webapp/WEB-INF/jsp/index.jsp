@@ -137,10 +137,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="/login" class="nav-link">Login / SignUp</a>
+                    <a href="/login" class="nav-link">Login</a>
                 </li>
                 <li class="nav-item">
-                    <a href="/retailer-register" class="nav-link">Retailer Register</a>
+                    <a href="/register" class="nav-link">Signup</a>
                 </li>
             </ul>
         </div>
@@ -157,7 +157,7 @@
 	        </div>
 	        <!-- Image Column -->
 	        <div class="col-12 col-md-6 d-flex justify-content-center">
-	            <img src="/images/nxt-trendz-home-img.png" alt="Shopping illustration" class="img-fluid" style="max-width: 70%;">
+	            <img src="/images/shopping-illu.jpg" alt="Shopping illustration" class="img-fluid" style="max-width: 90%;">
 	        </div>
 	    </div>
 	</div>

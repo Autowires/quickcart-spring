@@ -159,7 +159,7 @@
         <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="col-md-4 form-container">
-                    <h2 class="text-center mb-4 heading">Customer Login</h2>
+                    <h2 class="text-center mb-4 heading">Login</h2>
 
                     <form action="/login" method="post">
                         <div class="mb-3 input-box">
