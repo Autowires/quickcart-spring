@@ -2,18 +2,29 @@ package com.projects.quickcart.service.impl;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.projects.quickcart.dao.CartItemDAO;
+import com.projects.quickcart.dao.OrderDAO;
 import com.projects.quickcart.dao.ProductDAO;
 import com.projects.quickcart.dao.WishlistDAO;
+import com.projects.quickcart.dto.CheckoutForm;
 import com.projects.quickcart.entity.CartItem;
+import com.projects.quickcart.entity.Order;
+import com.projects.quickcart.entity.OrderDetail;
+import com.projects.quickcart.entity.OrderStatus;
+import com.projects.quickcart.entity.PaymentDetail;
 import com.projects.quickcart.entity.Product;
 import com.projects.quickcart.service.CustomerService;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
+
+	private Logger logger = LogManager.getLogger();
 
 	@Autowired
 	private CartItemDAO cartItemDAO;
@@ -23,6 +34,9 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
 	private ProductDAO productDAO;
+
+	@Autowired
+	private OrderDAO orderDAO;
 
 	@Override
 	public List<Product> getItems(long userId) {
@@ -82,6 +96,51 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public List<String> getCategories() {
 		return productDAO.getAllCategories();
+  }
+  
+  @Override
+	@Transactional
+	public void placeOrder(long customerId, CheckoutForm form) {
+		var cart = orderDAO.getCartItems(customerId);
+		var amount = cart.stream().mapToDouble(item -> item.getQuantity() * item.getProduct().getPrice()).sum();
+		logger.info("constructing payment details");
+		PaymentDetail paymentDetail = new PaymentDetail();
+		paymentDetail.setAmount(amount);
+		paymentDetail.setProvider(form.getPaymentMode());
+		paymentDetail.setStatus("PENDING");
+		orderDAO.save(paymentDetail);
+		Order order = new Order();
+		order.setFullName(form.getFullName());
+		order.setMobileNumber(form.getMobileNumber());
+		order.setPaymentDetail(paymentDetail);
+		order.setPincode(form.getPincode());
+		order.setShippingAddress(form.getAddress());
+		cart.forEach(item -> {
+			if (order.getCustomer() == null) {
+				order.setCustomer(item.getCustomer());
+			}
+			OrderDetail detail = new OrderDetail();
+			detail.setOrder(order);
+			detail.setOrderStatus(OrderStatus.PENDING);
+			detail.setPrice(item.getProduct().getPrice());
+			detail.setProduct(item.getProduct());
+			detail.setQuantity(item.getQuantity());
+
+			orderDAO.save(detail);
+			cartItemDAO.removeItem(customerId, item.getId());
+
+		});
+		orderDAO.save(order);
+	}
+
+	@Override
+	public List<Order> getOrders(long customerId) {
+		return orderDAO.getCustomerOrders(customerId);
+	}
+
+	@Override
+	public void cancelOrder(long customerId, long orderDetailId) {
+		orderDAO.cancelCustomerOrder(customerId, orderDetailId);
 	}
 
 }
