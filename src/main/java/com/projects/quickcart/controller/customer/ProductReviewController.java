@@ -8,10 +8,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.projects.quickcart.dto.CurrentUser;
 import com.projects.quickcart.entity.ProductReview;
 import com.projects.quickcart.service.ProductReviewService;
 
@@ -22,23 +25,19 @@ public class ProductReviewController {
 	@Autowired
 	private ProductReviewService productReviewService;
 
-	@GetMapping("/reviews")
-	public ModelAndView listReviewsByproduct(@PathVariable("productId") long productId) {
-		List<ProductReview> reviews = productReviewService.getReviewsByProductId(productId);
+	@GetMapping
+	public ModelAndView listReviewsByproduct(@SessionAttribute CurrentUser user) {
+		List<ProductReview> reviews = productReviewService.getReviewsByCustomerId(user.getUserId());
 		ModelAndView mView = new ModelAndView("reviews");
 		mView.addObject("reviews", reviews);
-		mView.addObject("productId", productId);
-		mView.addObject("productReview", new ProductReview());
-		mView.addObject("mode", "list");
 		return mView;
 	}
 
-	@GetMapping("/new")
-	public ModelAndView showNewReviewForm(@RequestParam("productId") long productId) {
-		ModelAndView mView = new ModelAndView();
-		mView.addObject("productReview", new ProductReview());
-		mView.addObject("productId", productId);
-		mView.addObject("mode", "add");
+	@PostMapping
+	public ModelAndView showNewReviewForm(@SessionAttribute CurrentUser user, @RequestParam long productId,
+			@RequestParam String reviewContent, @RequestParam int rating, @RequestHeader String referer) {
+		ModelAndView mView = new ModelAndView("redirect:" + referer);
+		productReviewService.saveProductReview(user.getUserId(), productId, reviewContent, rating);
 		return mView;
 	}
 

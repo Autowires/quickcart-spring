@@ -1,4 +1,4 @@
-package com.projects.quickcart.service;
+package com.projects.quickcart.service.impl;
 
 import java.util.List;
 
@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.projects.quickcart.dao.ProductReviewDAO;
 import com.projects.quickcart.entity.ProductReview;
+import com.projects.quickcart.service.ProductReviewService;
 
 import jakarta.transaction.Transactional;
 
@@ -58,6 +59,16 @@ public class ProductReviewServiceImpl implements ProductReviewService {
 	public List<ProductReview> getReviewsByProductId(long productId) {
 
 		return productReviewDAO.findByProductId(productId);
+	}
+
+	@Override
+	public List<ProductReview> getReviewsByCustomerId(long userId) {
+		return productReviewDAO.getCustomerReviews(userId);
+	}
+
+	@Override
+	public void saveProductReview(long userId, long productId, String reviewContent, int rating) {
+		productReviewDAO.addCustomerReview(userId, productId, reviewContent, rating);
 	}
 
 }

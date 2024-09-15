@@ -17,4 +17,8 @@ public interface ProductReviewService {
 	void deleteProductReview(long id);
 
 	List<ProductReview> getReviewsByProductId(long productId);
+
+	List<ProductReview> getReviewsByCustomerId(long userId);
+
+	void saveProductReview(long userId, long productId, String reviewContent, int rating);
 }

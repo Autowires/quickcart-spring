@@ -92,11 +92,37 @@
             <div class="mt-4">
                 <h4>Post a New Review</h4>
                 <form:form method="post" action="/reviews">
-                    <input type="hidden" name="productId" value="${productId}" />
+                    <input type="hidden" name="productId" value="${product.id}" />
                     <div class="mb-3">
-                        <label for="rating" class="form-label">Rating</label>
-                        <input type="number" class="form-control" id="rating" name="rating" min="1" max="5" required>
-                    </div>
+											<label class="form-label">Rating</label>
+											<div class="form-check form-check-inline">
+												<input class="form-check-input" type="radio" id="rating1"
+													name="rating" value="1" required> <label
+													class="form-check-label" for="rating1">1 - Poor</label>
+											</div>
+											<div class="form-check form-check-inline">
+												<input class="form-check-input" type="radio" id="rating2"
+													name="rating" value="2"> <label
+													class="form-check-label" for="rating2">2 - Fair</label>
+											</div>
+											<div class="form-check form-check-inline">
+												<input class="form-check-input" type="radio" id="rating3"
+													name="rating" value="3"> <label
+													class="form-check-label" for="rating3">3 - Good</label>
+											</div>
+											<div class="form-check form-check-inline">
+												<input class="form-check-input" type="radio" id="rating4"
+													name="rating" value="4"> <label
+													class="form-check-label" for="rating4">4 - Very
+													Good</label>
+											</div>
+											<div class="form-check form-check-inline">
+												<input class="form-check-input" type="radio" id="rating5"
+													name="rating" value="5"> <label
+													class="form-check-label" for="rating5">5 -
+													Excellent</label>
+											</div>
+										</div>
                     <div class="mb-3">
                         <label for="reviewContent" class="form-label">Comment</label>
                         <textarea class="form-control" id="reviewContent" name="reviewContent" rows="3" required></textarea>
