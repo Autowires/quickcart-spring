@@ -74,12 +74,8 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public List<Product> getProducts(String Category) {
-		if (Category == null) {
-			return productDAO.allProducts();
-		} else {
-			return productDAO.findProduct(Category);
-		}
+	public List<Product> getProducts(String category, String search) {
+		return productDAO.findProducts(category, search);
 	}
 
 	@Override
@@ -98,6 +94,11 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
+	public List<String> getCategories() {
+		return productDAO.getAllCategories();
+  }
+  
+  @Override
 	@Transactional
 	public void placeOrder(long customerId, CheckoutForm form) {
 		var cart = orderDAO.getCartItems(customerId);

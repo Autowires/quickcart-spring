@@ -22,13 +22,16 @@ public interface CustomerService {
 
 	void deleteCartitem(long userId, long productId);
 
-	List<Product> getProducts(String category);
+	List<Product> getProducts(String category, String search);
 
 	Product getProduct(long id);
 
 	boolean isProductWishlisted(Long id1, long id);
 
 	boolean isProductInCart(Long id1, long id);
+
+
+	List<String> getCategories();
 
 	void placeOrder(long customerId, CheckoutForm form);
 

@@ -4,15 +4,17 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html>
 <head>
-    <title>Product Details</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<title>Product details</title>
+<!-- Bootstrap CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"></link>
+<link rel="stylesheet" type="text/css" href="/styles/products.css">
 </head>
 <body>
 
-    <div class="container mt-5">
-        <h1 class="mb-4">Product Details</h1>
-
+<jsp:include page="header.jsp"></jsp:include>
+	<div class="container mt-5">
+		<h1 class="mb-4">Product Details</h1>
         <div class="row">
             <!-- Product Details and Actions -->
             <div class="col-md-8">

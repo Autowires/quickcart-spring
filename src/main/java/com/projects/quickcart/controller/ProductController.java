@@ -24,9 +24,11 @@ public class ProductController {
 	private ProductReviewService productReviewService;
 
 	@GetMapping("/products")
-	public ModelAndView productsView(@RequestParam(required = false) String category) {
+	public ModelAndView productsView(@RequestParam(required = false) String category,
+			@RequestParam(required = false) String search) {
 		ModelAndView mView = new ModelAndView("products");
-		mView.addObject("producs", customerService.getProducts(category));
+		mView.addObject("producs", customerService.getProducts(category, search));
+		mView.addObject("categories", customerService.getCategories());
 		return mView;
 	}
 

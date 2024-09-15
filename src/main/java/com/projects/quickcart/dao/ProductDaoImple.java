@@ -1,5 +1,6 @@
 package com.projects.quickcart.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -13,6 +14,8 @@ import com.projects.quickcart.dto.ProductForm;
 import com.projects.quickcart.entity.Product;
 import com.projects.quickcart.entity.Retailer;
 
+import jakarta.persistence.criteria.Predicate;
+
 @Repository
 public class ProductDaoImple implements ProductDAO {
 
@@ -20,37 +23,37 @@ public class ProductDaoImple implements ProductDAO {
 	private SessionFactory sf;
 
 	@Override
-	public List<Product> allProducts() {
+	public List<Product> findProducts(String category, String search) {
+		return sf.fromSession(session -> {
+			var builder = session.getCriteriaBuilder();
+			var query = builder.createQuery(Product.class);
+			var root = query.from(Product.class);
 
-		Session ss = sf.openSession();
-		Transaction t = ss.beginTransaction();
-		Query query = ss.createQuery("from Product");
-		List<Product> productList = query.getResultList();
-		System.out.println("Product List" + productList);
-		return productList;
+			// Build predicates based on the provided criteria
+			var predicates = new ArrayList<Predicate>();
+
+			if (search != null && !search.isBlank()) {
+				var searchPattern = "%" + search + "%";
+				var searchPredicate = builder.like(root.get("title"), searchPattern);
+				predicates.add(searchPredicate);
+			}
+
+			if (category != null && !category.isBlank()) {
+				var categoryPredicate = builder.equal(root.get("category"), category);
+				predicates.add(categoryPredicate);
+			}
+
+			query.where(predicates.toArray(new Predicate[0]));
+
+			return session.createQuery(query).getResultList();
+		});
 	}
 
 	@Override
 	public Product getProductById(long productId) {
-
-		Session session = sf.openSession();
-		Transaction transaction = session.beginTransaction();
-		Product product = session.get(Product.class, productId);
-		transaction.commit();
-		return product;
-	}
-
-	@Override
-	public List<Product> findProduct(String category) {
-
-		Session ss = sf.openSession();
-		Transaction t = ss.beginTransaction();
-
-		String hql = "from Product p where p.category= :category";
-		List<Product> products = ss.createQuery(hql, Product.class).setParameter("category", category).list();
-
-		t.commit();
-		return products;
+		return sf.fromSession(session -> {
+			return session.get(Product.class, productId);
+		});
 	}
 
 	@Override
@@ -114,5 +117,12 @@ public class ProductDaoImple implements ProductDAO {
 		q.setParameter("id", id);
 		q.executeUpdate();
 		t.commit();
+	}
+
+	@Override
+	public List<String> getAllCategories() {
+		return sf.fromSession(session -> {
+			return session.createQuery("select category from Product", String.class).getResultList();
+		});
 	}
 }
