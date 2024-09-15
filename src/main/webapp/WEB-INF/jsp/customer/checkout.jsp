@@ -11,30 +11,57 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Checkout</title>
 <!-- Bootstrap CSS -->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+
+	<link
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
 	rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="/styles/products.css">
 </head>
 <body>
+<jsp:include page="../header.jsp"></jsp:include>
 	<div class="container mt-5">
 		<div class="row">
 			<!-- Left Column: Checkout Form -->
 			<div class="col-md-6">
 				<h2 class="mb-4">Checkout Form</h2>
 
-				<!-- Normal HTML Form -->
+				<!-- Checkout Form -->
 				<form:form id="checkout-form" modelAttribute="checkoutForm">
-					<form:input path="fullName" class="form-control" placeholder="Enter full name" required="true"/>
-					<form:input path="mobileNumber" class="form-control" placeholder="Mobile number" required="true"/>
-					<form:input path="address" class="form-control" placeholder="Address" required="true"/>
-					<form:input path="pincode" type="number" class="form-control" placeholder="pincode" required="true"/>
-					<form:select path="paymentMode" class="form-control" required="true">
-						<form:option value="" label="Select Payment Mode" />
-						<form:option value="DEBIT_CARD" label="Debit card" />
-						<form:option value="COD" label="Cash on Delivery" />
-						<form:option value="UPI" label="UPI" />
-						<form:option value="NET_BANKING" label="Internet Banking" />
-					</form:select>
+					<!-- Full Name -->
+					<div class="mb-3">
+						<form:label path="fullName">Full Name</form:label>
+						<form:input path="fullName" class="form-control" placeholder="Enter full name" required="true"/>
+					</div>
+
+					<!-- Mobile Number -->
+					<div class="mb-3">
+						<form:label path="mobileNumber">Mobile Number</form:label>
+						<form:input path="mobileNumber" class="form-control" placeholder="Mobile number" required="true" type="number"/>
+					</div>
+
+					<!-- Address -->
+					<div class="mb-3">
+						<form:label path="address">Address</form:label>
+						<form:input path="address" class="form-control" placeholder="Address" required="true"/>
+					</div>
+
+					<!-- Pincode -->
+					<div class="mb-3">
+						<form:label path="pincode">Pincode</form:label>
+						<form:input path="pincode" type="number" class="form-control" placeholder="Pincode" required="true"/>
+					</div>
+
+					<!-- Payment Mode -->
+					<div class="mb-3">
+						<form:label path="paymentMode">Payment Mode</form:label>
+						<form:select path="paymentMode" class="form-control" required="true">
+							<form:option value="" label="Select Payment Mode" />
+							<form:option value="DEBIT_CARD" label="Debit card" />
+							<form:option value="COD" label="Cash on Delivery" />
+							<form:option value="UPI" label="UPI" />
+							<form:option value="NET_BANKING" label="Internet Banking" />
+						</form:select>
+					</div>
 				</form:form>
 
 			</div>
