@@ -19,6 +19,8 @@
 				</li>
 				<li class="nav-item"><a class="nav-link" href="/orders">Orders</a>
 				</li>
+				<li class="nav-item"><a class="nav-link" href="/reviews">Reviews</a>
+				</li>
 			</c:if>
 		</ul>
 

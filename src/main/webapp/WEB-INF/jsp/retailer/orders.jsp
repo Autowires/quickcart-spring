@@ -14,7 +14,7 @@
 	rel="stylesheet">
 </head>
 <body>
-
+<jsp:include page="header.jsp"></jsp:include>
 	<div class="container mt-5">
 		<h2 class="mb-4 text-center">Retailer Orders Management</h2>
 

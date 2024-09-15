@@ -31,6 +31,12 @@ public class HomeController {
 		return "login";
 	}
 
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
+	}
+
 	@PostMapping("/login")
 	public String loginView(@RequestParam String username, @RequestParam String password, Model model,
 			HttpSession session) {

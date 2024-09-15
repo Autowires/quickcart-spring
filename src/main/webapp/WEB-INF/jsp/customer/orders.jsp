@@ -7,20 +7,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Customer Orders</title>
-    <!-- Bootstrap CSS -->
+    <!-- Bootstrap CSS (4.5.2) -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/styles/products.css">
 </head>
 <body>
-
+<jsp:include page="../header.jsp"></jsp:include>
 <div class="container mt-5">
     <h2 class="mb-4 text-center">Your Orders</h2>
 
+    <!-- No Orders Alert -->
     <c:if test="${empty orders}">
         <div class="alert alert-warning" role="alert">
             You have no orders yet.
         </div>
     </c:if>
 
+    <!-- Orders Accordion -->
     <c:if test="${!empty orders}">
         <div class="accordion" id="ordersAccordion">
             <c:forEach var="order" items="${orders}">
