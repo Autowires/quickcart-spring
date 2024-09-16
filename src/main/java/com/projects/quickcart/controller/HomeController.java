@@ -1,6 +1,7 @@
 package com.projects.quickcart.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,8 @@ import com.projects.quickcart.dto.CurrentUser;
 import com.projects.quickcart.dto.RegistrationForm;
 import com.projects.quickcart.service.UserService;
 
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -109,6 +112,22 @@ public class HomeController {
 		}
 
 		return mv;
+	}
+
+	@GetMapping("/error")
+	public String handleError(HttpServletRequest request) {
+		Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+
+		if (status != null) {
+			Integer statusCode = Integer.valueOf(status.toString());
+
+			if (statusCode == HttpStatus.NOT_FOUND.value()) {
+				return "404";
+			} else if (statusCode == HttpStatus.UNAUTHORIZED.value()) {
+				return "403";
+			}
+		}
+		return "error";
 	}
 
 }
