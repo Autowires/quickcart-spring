@@ -1,5 +1,6 @@
 package com.projects.quickcart.dao.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.hibernate.SessionFactory;
@@ -10,6 +11,7 @@ import com.projects.quickcart.dao.UserDAO;
 import com.projects.quickcart.entity.Customer;
 import com.projects.quickcart.entity.MyUser;
 import com.projects.quickcart.entity.Retailer;
+import com.projects.quickcart.entity.UserStatus;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -42,6 +44,22 @@ public class UserDAOImpl implements UserDAO {
 	public void addRetailer(Retailer retailer) {
 		sessionFactory.inTransaction(session -> {
 			session.persist(retailer);
+		});
+	}
+
+	@Override
+	public List<MyUser> getAllUsers() {
+		return sessionFactory.fromSession(session -> {
+			return session.createQuery("from User", MyUser.class).getResultList();
+		});
+	}
+
+	@Override
+	public void updateUserStatus(long userId, UserStatus status) {
+		sessionFactory.inTransaction(session -> {
+			MyUser user = session.get(MyUser.class, userId);
+			user.setStatus(status);
+			session.merge(user);
 		});
 	}
 
