@@ -62,6 +62,7 @@ public class HomeController {
 		return switch (u.getRole()) {
 		case "CUSTOMER" -> "redirect:/products";
 		case "RETAILER" -> "redirect:/retailer";
+		case "ADMIN" -> "redirect:/admin/users";
 		default -> {
 			session.invalidate();
 			System.out.println("Unknown user role " + u.getRole());

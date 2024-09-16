@@ -21,13 +21,13 @@ public class UsersController {
 	private UserService userService;
 
 	@GetMapping
-	public ModelAndView getUserAndView(@RequestParam(required = false) String role) {
+	public ModelAndView getUserAndView(@SessionAttribute(required = false) CurrentUser user,
+			@RequestParam(required = false) String role) {
 		ModelAndView mView = new ModelAndView("admin/users");
 		if (role == null || role.isBlank()) {
 			mView.addObject("users", userService.getAllUsers());
 		} else {
-			mView.addObject("users",
-					userService.getAllUsers().stream().filter(user -> user.getRole().equals(role)).toList());
+			mView.addObject("users", userService.getAllUsers().stream().filter(u -> u.getRole().equals(role)).toList());
 		}
 
 		return mView;
