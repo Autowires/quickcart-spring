@@ -1,5 +1,6 @@
 package com.projects.quickcart.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.projects.quickcart.dto.RegistrationForm;
@@ -11,4 +12,6 @@ public interface UserService {
 	void registerCustomer(RegistrationForm registrationForm);
 
 	void registerRetailer(RegistrationForm registrationForm);
+
+	List<MyUser> getAllUsers();
 }

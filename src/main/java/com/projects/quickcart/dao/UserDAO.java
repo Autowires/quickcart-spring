@@ -1,5 +1,6 @@
 package com.projects.quickcart.dao;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.projects.quickcart.entity.Customer;
@@ -12,4 +13,6 @@ public interface UserDAO {
 	void addCustomer(Customer customer);
 
 	void addRetailer(Retailer retailer);
+
+	List<MyUser> getAllUsers();
 }

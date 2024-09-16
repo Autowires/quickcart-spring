@@ -1,5 +1,6 @@
 package com.projects.quickcart.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,11 @@ public class UserServiceImpl implements UserService {
 		retailer.setPassword(registrationForm.getPassword());
 		retailer.setStatus(UserStatus.PENDING_VERIFICATION);
 		dao.addRetailer(retailer);
+	}
+
+	@Override
+	public List<MyUser> getAllUsers() {
+		return dao.getAllUsers();
 	}
 
 }
