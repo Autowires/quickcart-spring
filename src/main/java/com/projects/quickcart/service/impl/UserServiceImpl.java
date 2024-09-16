@@ -50,4 +50,9 @@ public class UserServiceImpl implements UserService {
 		return dao.getAllUsers();
 	}
 
+	@Override
+	public void updateUserStatus(long userId, UserStatus status) {
+		dao.updateUserStatus(userId, status);
+	}
+
 }

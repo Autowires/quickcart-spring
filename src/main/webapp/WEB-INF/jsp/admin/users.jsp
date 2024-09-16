@@ -54,22 +54,24 @@
 						<td>${user.email}</td>
 						<td>${user.role}</td>
 						<td>${user.status}</td>
-						<td><form:from method="put" style="display:inline;">
+						<td>
+						<form:form method="put" style="display:inline;">
 								<input type="hidden" name="userId" value="${user.id}" />
 								<button type="submit" name="status" value="ACTIVE"
 									class="btn btn-success btn-sm"
 									<c:if test="${user.status == 'ACTIVE'}">disabled</c:if>>Activate</button>
-							</form:from> <form:from method="put" style="display:inline;">
+							</form:form> 
+							<form:form method="put" style="display:inline;">
 								<input type="hidden" name="userId" value="${user.id}" />
 								<button type="submit" name="status" value="SUSPENDED"
 									class="btn btn-warning btn-sm"
 									<c:if test="${user.status == 'SUSPENDED'}">disabled</c:if>>Suspend</button>
-							</form:from> <form:from method="put" style="display:inline;">
+							</form:form> <form:form method="put" style="display:inline;">
 								<input type="hidden" name="userId" value="${user.id}" />
 								<button type="submit" name="status" value="DEACTIVATED"
 									class="btn btn-secondary btn-sm"
 									<c:if test="${user.status == 'DEACTIVATED'}">disabled</c:if>>Deactivate</button>
-							</form:from></td>
+							</form:form></td>
 					</tr>
 				</c:forEach>
 			</tbody>

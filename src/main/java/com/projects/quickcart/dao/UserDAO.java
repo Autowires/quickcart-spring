@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.projects.quickcart.entity.Customer;
 import com.projects.quickcart.entity.MyUser;
 import com.projects.quickcart.entity.Retailer;
+import com.projects.quickcart.entity.UserStatus;
 
 public interface UserDAO {
 	Optional<MyUser> getUser(String username, String password);
@@ -15,4 +16,6 @@ public interface UserDAO {
 	void addRetailer(Retailer retailer);
 
 	List<MyUser> getAllUsers();
+
+	void updateUserStatus(long userId, UserStatus status);
 }
